@@ -2,8 +2,8 @@ function draw(){
   var width = 1200,
     height = 600;
 
-  function drawLine (num, barNum) {
-    for (var i = 0; i < num; i++) {
+  function drawLine (diff, line) {
+    for (var i = 0; i < diff; i++) {
       d3.select(barNum)
         .append('rect')
           .attr('x', i)
@@ -21,8 +21,6 @@ function draw(){
     .attr("height", height);
 
   d3.csv("js/timeline.csv", function(error, data){
-    var lineLength,
-      barNum;  
 
     data.forEach(function(element, index){
       data[index].periodical = +data[index].periodical;
@@ -30,7 +28,6 @@ function draw(){
       data[index]['line'] = '.line-' + index;
       lineLength = data[index]['diff']
     }); 
-
 
     console.log(data);
 
