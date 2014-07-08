@@ -2,21 +2,15 @@ function draw(){
   var width = 1200,
     height = 600;
 
-  var data = [{
-    title: 'test',
-    reason: 'gift',
-    diff: 422
-  }]
-
-  function drawLine (num) {
+  function drawLine (num, barNum) {
     for (var i = 0; i < num; i++) {
-      d3.select('.line')
+      d3.select(barNum)
         .append('rect')
           .attr('x', i)
           .attr('y', height/7)
           .attr('width', 1)
           .attr('height', 10)
-          .attr('fill', 'hsla(283, 100%, 50%, 1)');
+          .attr('fill', 'hsla(283, 100%, 50%, .2)');
     }
   }
 
@@ -26,24 +20,33 @@ function draw(){
     .attr("width", width)
     .attr("height", height);
 
+  d3.csv("js/timeline.csv", function(error, data){
+    var lineLength,
+      barNum;  
 
-  var line = svg.selectAll('g')
-    .data(data)
-    .enter()
-    .append('g')
-    .attr('class', 'line')
-    .call(drawLine(422));
+    data.forEach(function(element, index){
+      data[index].periodical = +data[index].periodical;
+      data[index]['diff'] = Math.floor(Math.random() * (1000 - 5) + 5);
+      data[index]['line'] = '.line-' + index;
+      lineLength = data[index]['diff']
+    }); 
+
+
+    console.log(data);
+
+    svg.selectAll('g')
+        .data(data)
+        .enter()
+        .append('g')
+        .attr('class', function(d, i){ return 'line-' + i;});
+
+    data.forEach(function(element, index){
+      drawLine(element.diff, element.line);
+    });
+        
+    }
+  )
 }
-
-//   d3.[filetype]("file", function(error, data){
-//     var chart = svg.selectAll(" ")
-//       .data(data)
-//       .enter()
-//       .append(" ")
-//       .attr();
-
-//   })
-// }
 
 
 document.onreadystatechange = function() {
