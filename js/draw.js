@@ -15,17 +15,16 @@ function draw(){
     }
   }
 
-  function setDiff (possession, index) {
+  function setDiff (possession) {
     var today = new Date(),
         earliest = new Date(2010, 0, 1),
         possession = possession,
         diff = 0;
 
-        console.log(possession);
+    var max = Date.parse(today),
+        min = Date.parse(earliest);
     
     if (possession === ''){
-      var max = Date.parse(today);
-      var min = Date.parse(earliest);
       possession = Math.floor(Math.random() * (max - min) + min)
     } else {
       possession = possession.split('-');
@@ -33,12 +32,9 @@ function draw(){
       possession = Date.parse(possession); 
     }
 
-    console.log(possession);
-
     diff = max - possession;
 
     return diff;
-
   }
 
 
@@ -47,15 +43,24 @@ function draw(){
     .attr('width', width)
     .attr('height', height);
 
+  var lineScale = d3.scale.linear().range([0, width]);
+
   d3.csv('js/timeline.csv', function(error, data){
 
     data.forEach(function(element, index){
       data[index].periodical = +data[index].periodical;
-      data[index]['diff'] = setDiff(element.possession, index);
-      console.log(element.diff);
+      data[index]['diff'] = setDiff(element.possession);
     }); 
 
-    // console.log(data[1].possession);
+    var diffMax = d3.max(data, function(d){ return d.diff });
+    console.log(diffMax); 
+    lineScale.domain([0, diffMax]);
+
+    data.forEach(function(element, index){
+      console.log(element.diff);
+      element.diff = lineScale(element.diff);
+      console.log(element.diff);
+    }); 
 
     svg.selectAll('g')
         .data(data)
