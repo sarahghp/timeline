@@ -54,11 +54,10 @@ function draw(){
     }); 
 
     var diffMax = d3.max(data, function(d){ return d.diff });
-    console.log(diffMax); 
     lineScale.domain([0, diffMax]);
 
     data.forEach(function(element, index){
-      console.log(element.diff);
+      // console.log(element.diff);
       element.diff = lineScale(element.diff);
       console.log(element.diff);
     }); 
