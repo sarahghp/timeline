@@ -9,11 +9,15 @@ function draw(){
     var lineClass = '.line-' + line;
 
     function heightGenerator (index) {
-      var base = 13 - (i/800);
-          plusOrMinus  = Math.random() > .5 ? 1 : -1 ;
-          adjustment = plusOrMinus * 5 * (i/width) * Math.random(),
-          opacity = Math.max(0, Math.min((base + adjustment), 10));
-      return opacity;
+      if (index % 50 === 0){
+        var base = 13 - (i/800);
+            plusOrMinus  = Math.random() > .5 ? 1 : -1 ;
+            adjustment = plusOrMinus * 5 * (i/width) * Math.random(),
+            height = Math.max(0, Math.min((base + adjustment), 10));
+        return height;
+      } else {
+        return 10;
+      }
     } 
 
     function opacityGenerator (index) {
