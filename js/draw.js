@@ -1,17 +1,37 @@
 function draw(){
-  var width = 4800,
-    height = 600;
+
+  var width = 4800;
+  var lineScale = d3.scale.linear()
+    .range([0, width - 10]);
 
   function drawLine (diff, line) {
-    var lineClass = '.line-' + line; 
+
+    var lineClass = '.line-' + line;
+
+    function heightGenerator (index) {
+      var base = 13 - (i/800);
+          plusOrMinus  = Math.random() > .5 ? 1 : -1 ;
+          adjustment = plusOrMinus * 5 * (i/width) * Math.random(),
+          opacity = Math.max(0, Math.min((base + adjustment), 10));
+      return opacity;
+    } 
+
+    function opacityGenerator (index) {
+      var base = (250/(i + 1)) + .2,
+          plusOrMinus  = Math.random() > .5 ? 1 : -1 ;
+          adjustment = plusOrMinus * (i/width) * Math.random(),
+          opacity = Math.max(0, Math.min((base + adjustment), .7));
+      return opacity;
+    }
+
     for (var i = 0; i < diff; i+=10) {
       d3.select(lineClass)
         .append('rect')
           .attr('x', i)
-          .attr('y', (line * 25) + 15)
+          .attr('y', (line * 30) + 15)
           .attr('width', 10)
-          .attr('height', 10)
-          .attr('fill', 'hsla(283, 100%, 50%, .2)');
+          .attr('height', heightGenerator(i))
+          .attr('fill', 'hsla(283, 100%, 50%,' + opacityGenerator(i) +')');
     }
   }
 
@@ -32,32 +52,29 @@ function draw(){
       possession = Date.parse(possession); 
     }
 
-    diff = max - possession;
+    diff = Math.floor(max - possession);
 
     return diff;
   }
 
-  var svg = d3.select('.chart')
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height);
-
-
-  var lineScale = d3.scale.linear().range([0, width - 10]);
-
   d3.csv('js/timeline.csv', function(error, data){
 
+    height = data.length * 30;
+
+    var svg = d3.select('.chart')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
 
     data.forEach(function(element, index){
-      data[index].periodical = +data[index].periodical;
-      data[index]['diff'] = setDiff(element.possession);
+      element.periodical = +element.periodical;
+      element.diff = setDiff(element.possession);
     }); 
 
     var diffMax = d3.max(data, function(d){ return d.diff });
     lineScale.domain([0, diffMax]);
 
     data.forEach(function(element, index){
-      // console.log(element.diff);
       element.diff = lineScale(element.diff);
       console.log(element.diff);
     }); 
