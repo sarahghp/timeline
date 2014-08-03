@@ -4,9 +4,26 @@ function draw(){
   var lineScale = d3.scale.linear()
     .range([0, width - 10]);
 
-  function drawLine (diff, line) {
+
+
+  function drawLine (diff, line, reason) {
 
     var lineClass = '.line-' + line;
+
+    function color(reason) {     
+      var thisColor;
+      var colors =  { 
+          'interest': '163, 71%, 47%, ',
+          'recommended': '208, 66%, 50%, ',
+          'gift': '283, 51%, 50%, ',
+          'fascination': '1, 100%, 67%, ',
+          'existential crisis': '241, 12%, 50%, ',
+          'comfort': '13, 82%, 61%, ',
+          'consolation': '13, 82%, 61%, ',
+        }
+      thisColor = colors[reason] || '334, 82%, 47%, ';
+      return thisColor;
+    }
 
     function heightGenerator (index) {
       if (index % 50 === 0){
@@ -24,7 +41,7 @@ function draw(){
       var base = (250/(i + 1)) + .2,
           plusOrMinus  = Math.random() > .5 ? 1 : -1 ;
           adjustment = plusOrMinus * (i/width) * Math.random(),
-          opacity = Math.max(0, Math.min((base + adjustment), .7));
+          opacity = Math.max(.1, Math.min((base + adjustment), .7));
       return opacity;
     }
 
@@ -35,7 +52,7 @@ function draw(){
           .attr('y', (line * 30) + 15)
           .attr('width', 10)
           .attr('height', heightGenerator(i))
-          .attr('fill', 'hsla(283, 100%, 50%,' + opacityGenerator(i) +')');
+          .attr('fill', 'hsla(' + color(reason) + opacityGenerator(i) +')');
     }
   }
 
@@ -72,6 +89,7 @@ function draw(){
 
     data.forEach(function(element, index){
       element.periodical = +element.periodical;
+      element.reason = element['reason'].toLowerCase();
       element.diff = setDiff(element.possession);
     }); 
 
@@ -90,7 +108,7 @@ function draw(){
           .attr('class', function(d, i){ return 'line-' + i;});
 
     data.forEach(function(element, index){
-      drawLine(element.diff, index);
+      drawLine(element.diff, index, element.reason);
     });
         
     }
