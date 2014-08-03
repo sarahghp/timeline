@@ -106,10 +106,25 @@ function draw(){
         .enter()
         .append('g')
           .attr('class', function(d, i){ return 'line-' + i;})
-          .append('title')
+        .on('mouseover', function(d, i){
+          
+          var xPosition = window.event.clientX + 14,
+              yPosition = window.event.clientY + 20;
+
+          d3.select(this)
+          .append('text')
+          .attr('id', 'tooltip')
+          .attr('x', xPosition)
+          .attr('y', yPosition)
           .text(function(d){
             return '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
           });
+        })
+
+        .on('mouseout', function(){
+          d3.select("#tooltip").remove();
+        });
+        
 
     data.forEach(function(element, index){
       drawLine(element.diff, index, element.reason);
