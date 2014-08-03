@@ -105,7 +105,11 @@ function draw(){
         .data(data)
         .enter()
         .append('g')
-          .attr('class', function(d, i){ return 'line-' + i;});
+          .attr('class', function(d, i){ return 'line-' + i;})
+          .append('title')
+          .text(function(d){
+            return '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
+          });
 
     data.forEach(function(element, index){
       drawLine(element.diff, index, element.reason);
