@@ -9,7 +9,7 @@ function draw(){
 
     var lineClass = '.line-' + line;
 
-    function color(reason) {     
+    function colorGenerator(reason) {     
       var thisColor;
       var colors =  { 
           'interest': '163, 71%, 47%, ',
@@ -51,7 +51,7 @@ function draw(){
           .attr('y', (line * 30) + 15)
           .attr('width', 10)
           .attr('height', boxHeightGenerator(i))
-          .attr('fill', 'hsla(' + color(reason) + opacityGenerator(i) +')');
+          .attr('fill', 'hsla(' + colorGenerator(reason) + opacityGenerator(i) +')');
     }
   }
 
@@ -97,7 +97,6 @@ function draw(){
 
     data.forEach(function(element, index){
       element.diff = lineScale(element.diff);
-      console.log(element.diff);
     }); 
 
     svg.selectAll('g')
@@ -105,25 +104,25 @@ function draw(){
         .enter()
         .append('g')
           .attr('class', function(d, i){ return 'line-' + i;})
-        .on('mouseover', function(d, i){
+        .on('mouseover', function(d){
           
-          var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX + 14 : event.clientX + scrollX - 450,
-              yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 5 : event.clientY + scrollY + 14;
+          var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX : event.clientX + scrollX - 450,
+              yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 5 : event.clientY + scrollY,
+              text = '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
 
-          console.log(height);
 
-          d3.select(this)
-          .append('text')
-          .attr('id', 'tooltip')
-          .attr('x', xPosition)
-          .attr('y', yPosition)
-          .text(function(d){
-            return '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
-          });
+          d3.select('#tooltip')
+            .style('left', xPosition + 'px')
+            .style('top', yPosition + 'px')
+            .select('#values')
+            .text(text);
+
+          d3.select('#tooltip').classed('hidden', false);
+
         })
 
         .on('mouseout', function(){
-          d3.select("#tooltip").remove();
+          d3.select('#tooltip').classed('hidden', true);
         });
         
 
