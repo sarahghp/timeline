@@ -5,7 +5,6 @@ function draw(){
     .range([0, width - 10]);
 
 
-
   function drawLine (diff, line, reason) {
 
     var lineClass = '.line-' + line;
@@ -25,13 +24,13 @@ function draw(){
       return thisColor;
     }
 
-    function heightGenerator (index) {
+    function boxHeightGenerator (index) {
       if (index % 50 === 0){
         var base = 13 - (i/800);
-            plusOrMinus  = Math.random() > .5 ? 1 : -1 ;
+            plusOrMinus = Math.random() > .5 ? 1 : -1 ;
             adjustment = plusOrMinus * 5 * (i/width) * Math.random(),
-            height = Math.max(0, Math.min((base + adjustment), 10));
-        return height;
+            boxHeight = Math.max(0, Math.min((base + adjustment), 10));
+        return boxHeight;
       } else {
         return 10;
       }
@@ -51,7 +50,7 @@ function draw(){
           .attr('x', i)
           .attr('y', (line * 30) + 15)
           .attr('width', 10)
-          .attr('height', heightGenerator(i))
+          .attr('height', boxHeightGenerator(i))
           .attr('fill', 'hsla(' + color(reason) + opacityGenerator(i) +')');
     }
   }
@@ -108,8 +107,10 @@ function draw(){
           .attr('class', function(d, i){ return 'line-' + i;})
         .on('mouseover', function(d, i){
           
-          var xPosition = window.event.clientX + 14,
-              yPosition = window.event.clientY + 20;
+          var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX + 14 : event.clientX + scrollX - 450,
+              yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 5 : event.clientY + scrollY + 14;
+
+          console.log(height);
 
           d3.select(this)
           .append('text')
