@@ -5,11 +5,10 @@ function draw(){
     .range([0, width - 10]);
   var startScale = d3.scale.linear()
     .range([0, width - 10]);
-    var today = new Date(),
-        earliest = new Date(2010, 0, 1),
-        maxDate = Date.parse(today),
-        minDate = Date.parse(earliest);
-
+  var today = new Date(),
+      earliest = new Date(2010, 0, 1),
+      maxDate = Date.parse(today),
+      minDate = Date.parse(earliest);
 
 
   function setPossession (possession) {
@@ -20,6 +19,7 @@ function draw(){
       possession = new Date(possession[0], possession[1], possession[2]);
       possession = Date.parse(possession); 
     }
+    return possession;
   }
 
   function setDiffs (type, possession) {
@@ -30,7 +30,6 @@ function draw(){
     startDiff = possession - minDate;
 
     (type === 'diff') ? diff = diff : diff = startDiff;
-
     return diff;
   }
 
@@ -100,7 +99,7 @@ function draw(){
       element.reason = element['reason'].toLowerCase();
       element.possession = setPossession(element.possession);
       element.diff = setDiffs('diff', element.possession);
-      element.startDiff = setDiffs('startDiff', element.possession); // TODO: Random possession can differ
+      element.startDiff = setDiffs('startDiff', element.possession); 
     }); 
 
     var diffMax = d3.max(data, function(d){ return d.diff });
