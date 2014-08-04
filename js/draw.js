@@ -13,12 +13,10 @@ function draw(){
 
   function setPossession (possession) {
 
-    var maxPossession = Date.parse(new Date())
-    maxPossession = Date.parse(maxPossession);
-
+    var maxPossession = Date.parse(new Date(2013, 7, 1));
 
     if (possession === ''){
-      possession = Math.floor(Math.random() * (maxDate - minDate) + minDate);
+      possession = Math.floor(Math.random() * (maxPossession - minDate) + minDate);
     } else {
       possession = possession.split('-');
       possession = new Date(possession[0], possession[1], possession[2]);
