@@ -12,6 +12,11 @@ function draw(){
 
 
   function setPossession (possession) {
+
+    var maxPossession = Date.parse(new Date())
+    maxPossession = Date.parse(maxPossession);
+
+
     if (possession === ''){
       possession = Math.floor(Math.random() * (maxDate - minDate) + minDate);
     } else {
@@ -120,7 +125,7 @@ function draw(){
         .on('mouseover', function(d){
           
           var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX : event.clientX + scrollX - 450,
-              yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 25 : event.clientY + scrollY,
+              yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 25 : event.clientY + scrollY + 5,
               text = '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
 
 
