@@ -51,7 +51,7 @@ function draw(){
           'interest': '163, 71%, 47%, ',
           'recommended': '208, 66%, 50%, ',
           'gift': '283, 51%, 50%, ',
-          'fascination': '1, 100%, 67%, ',
+          'fascination': '355, 100%, 67%, ',
           'existential crisis': '241, 12%, 50%, ',
           'comfort': '13, 82%, 61%, ',
           'consolation': '13, 82%, 61%, ',
@@ -123,7 +123,7 @@ function draw(){
         .data(data)
         .enter()
         .append('g')
-          .attr('class', function(d, i){ return 'line-' + i;})
+          .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;})
         .on('mouseover', function(d){
           
           var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX : event.clientX + scrollX - 450,
