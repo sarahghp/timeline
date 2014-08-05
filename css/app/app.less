@@ -1,5 +1,5 @@
 body {
-	margin: 30px;
+	margin: 0;
 	font-family: 'Lekton', sans-serif;
 	font-size: 12px;
 }
@@ -11,27 +11,38 @@ g {
 header {
 	position: fixed;
 	width: 100%;
-	padding: 30px 0;
 	top: 0;
 	color: hsla(208, 95%, 21%, 1);
 	z-index: 5;
+	background-color: hsla(360, 100%, 100%, .7);
+
+	article {
+		padding: 30px;
+	}
+
 
 	h1 {
 		font-family: 'Londrina Outline', sans-serif;
 		text-transform: uppercase;
 		font-size: 50px;
-		margin: 0;
+		margin: 0 0 .7em 0;
 	}
 
 	.intro p {
 		width: 1000px;
 		font-family: 'Lekton', sans-serif;
-		font-size: 20px;
-		line-height: 32px;
+		font-size: 16px;
+		line-height: 24px;
 
 		span {
 			font-weight: 700;
 		}
+	}
+
+	.gradient {
+		background: linear-gradient(hsla(0, 0%, 82%, 1), hsla(0, 0%, 82%, 0)) 0 0 no-repeat;
+		height: 10px;
+		padding: 0;
 	}
 
 }
@@ -69,7 +80,7 @@ header {
 	height: auto;
 	width: 4800px;
 	position: absolute;
-	top: 352px;
+	top: 322px;
 
 	.right {
 		position: absolute;
@@ -78,7 +89,7 @@ header {
 
 	.left {
 		position: absolute;
-		left: 0;
+		left: 30px;
 	}
 }
 

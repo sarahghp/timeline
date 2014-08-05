@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Londrina+Outline|Lekton:400,700,400italic);
 body {
-  margin: 30px;
+  margin: 0;
   font-family: 'Lekton', sans-serif;
   font-size: 12px;
 }
@@ -10,25 +10,33 @@ g {
 header {
   position: fixed;
   width: 100%;
-  padding: 30px 0;
   top: 0;
   color: #033968;
   z-index: 5;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+header article {
+  padding: 30px;
 }
 header h1 {
   font-family: 'Londrina Outline', sans-serif;
   text-transform: uppercase;
   font-size: 50px;
-  margin: 0;
+  margin: 0 0 .7em 0;
 }
 header .intro p {
   width: 1000px;
   font-family: 'Lekton', sans-serif;
-  font-size: 20px;
-  line-height: 32px;
+  font-size: 16px;
+  line-height: 24px;
 }
 header .intro p span {
   font-weight: 700;
+}
+header .gradient {
+  background: linear-gradient(#d1d1d1, rgba(209, 209, 209, 0)) 0 0 no-repeat;
+  height: 10px;
+  padding: 0;
 }
 #gifts {
   color: #9c3ec1;
@@ -55,7 +63,7 @@ header .intro p span {
   height: auto;
   width: 4800px;
   position: absolute;
-  top: 352px;
+  top: 322px;
 }
 .axis .right {
   position: absolute;
@@ -63,7 +71,7 @@ header .intro p span {
 }
 .axis .left {
   position: absolute;
-  left: 0;
+  left: 30px;
 }
 .chart {
   height: 100%;
