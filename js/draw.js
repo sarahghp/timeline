@@ -166,7 +166,6 @@ function draw(){
         .attr('fill', function(d) {
           var thisReason = d.reason;
           var reasonColor = colorGenerator(thisReason);
-          console.log(reasonColor);
           return 'hsla(' + reasonColor + '.5)'
         });
 
@@ -184,14 +183,35 @@ document.onreadystatechange = function() {
 
   var header = document.getElementById('intro-header'),
       headerHeight = header.offsetHeight,
-      axis = document.getElementById('axis');
+      axis = document.getElementById('axis'),
+      introPara = document.getElementById('intro-para'),
+      closeButton = document.getElementById('close');
 
   axis.style.top = headerHeight + 22 + 'px';
+  closeButton.onclick = closeFunction;
   
   window.onscroll = function(){
     axis.style.left = -(window.scrollX) + 'px';
   };
 
+  function closeFunction() {
+    introPara.setAttribute('class', 'hidden');
+    this.removeAttribute('id', 'close');
+    this.setAttribute('id', 'more');
+    axis.style.top = headerHeight + 22 + 'px';
+    document.getElementById('more').onclick = revealFunction;
+  }
+
+  function revealFunction () {
+    introPara.removeAttribute('class', 'hidden');
+    this.removeAttribute('id', 'more');
+    this.setAttribute('id', 'close');
+    axis.style.top = headerHeight + 22 + 'px';
+    document.getElementById('close').onclick = closeFunction;
+  }
+
+
+  
  
 
 

@@ -24,14 +24,27 @@ header h1 {
   font-size: 50px;
   margin: 0 0 .7em 0;
 }
-header .intro p {
+header h1 .fa-plus {
+  position: fixed;
+  right: 30px;
+  transform: rotate(45deg);
+  cursor: pointer;
+}
+header h1 .fa-plus#more {
+  transform: rotate(0deg);
+}
+header #intro-para {
   width: 1000px;
   font-family: 'Lekton', sans-serif;
   font-size: 16px;
   line-height: 24px;
+  display: block;
 }
-header .intro p span {
+header #intro-para span {
   font-weight: 700;
+}
+header #intro-para.hidden {
+  display: none;
 }
 header .gradient {
   background: linear-gradient(#d1d1d1, rgba(209, 209, 209, 0)) 0 0 no-repeat;
