@@ -8,12 +8,20 @@ g {
 	cursor: pointer;
 }
 
-.axis {
-	height: 60px;
-	width: 4800px;
-	position: absolute;
+header {
+	position: fixed;
 	top: 0;
 	background-color: hsla(360, 100%, 100%, .7);
+	z-index: 5;
+
+
+}
+
+.axis {
+	height: 100%;
+	width: 4800px;
+	position: absolute;
+	top: 100px;
 }
 
 .axis path {
@@ -25,7 +33,9 @@ g {
 }
 
 .chart {
-	margin-top: 60px;
+	position: relative;
+	height: 100%;
+	margin-top: 180px;
 }
 
 #tooltip {

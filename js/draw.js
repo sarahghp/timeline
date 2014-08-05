@@ -61,7 +61,7 @@ function draw(){
     }
 
     function boxHeightGenerator (index) {
-      if (index % 50 === 0){
+      if (index % 20 === 0){
         var base = 13 - (i/800);
             plusOrMinus = Math.random() > .5 ? 1 : -1 ;
             adjustment = plusOrMinus * 5 * (i/width) * Math.random(),
@@ -156,12 +156,6 @@ function draw(){
         .attr('width', width)
         .attr('height', axisHeight);
 
-      var axis = d3.svg.axis()
-          .scale(startScale)
-          .ticks(d3.time.months)
-          .orient('bottom');
-
-
       axisSvg.selectAll('circle')
         .data(data)
         .enter()
@@ -170,11 +164,6 @@ function draw(){
         .attr('cy', 20)
         .attr('r', 4)
         .attr('fill', 'blue');
-      
-      axisSvg.append('g')
-        .attr('transform', 'translate(0,' + 30 + ')')
-        .call(axis);
-
 
     })();
         
