@@ -151,7 +151,7 @@ function draw(){
     });
 
     (function drawAxis(){
-      var axisSvg = d3.select('.axis')
+      var axisSvg = d3.select('#axis')
         .append('svg')
         .attr('width', width)
         .attr('height', axisHeight);
@@ -181,4 +181,20 @@ document.onreadystatechange = function() {
   if (document.readyState == 'complete'){
     draw();
   }
+
+  var header = document.getElementById('intro-header'),
+      headerHeight = header.offsetHeight,
+      axis = document.getElementById('axis');
+
+  axis.style.top = headerHeight + 22 + 'px';
+  
+  window.onscroll = function(){
+    axis.style.left = -(window.scrollX) + 'px';
+  };
+
+ 
+
+
+
+
 }

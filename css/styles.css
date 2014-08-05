@@ -59,17 +59,16 @@ header .gradient {
 #other {
   color: #da166b;
 }
-.axis {
+#axis {
   height: auto;
   width: 4800px;
-  position: absolute;
-  top: 322px;
+  position: fixed;
 }
-.axis .right {
+#axis .right {
   position: absolute;
   right: 5px;
 }
-.axis .left {
+#axis .left {
   position: absolute;
   left: 30px;
 }
