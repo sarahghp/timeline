@@ -182,12 +182,18 @@ document.onreadystatechange = function() {
   }
 
   var header = document.getElementById('intro-header'),
-      headerHeight = header.offsetHeight,
       axis = document.getElementById('axis'),
+      chart = document.getElementById('chart')
       introPara = document.getElementById('intro-para'),
       closeButton = document.getElementById('close');
 
-  axis.style.top = headerHeight + 22 + 'px';
+  function setHeights() {
+    headerHeight = header.offsetHeight;
+    axis.style.top = headerHeight + 20 + 'px';
+    chart.style.marginTop = headerHeight + 120 + 'px';
+  };
+
+  setHeights()
   closeButton.onclick = closeFunction;
   
   window.onscroll = function(){
@@ -198,7 +204,7 @@ document.onreadystatechange = function() {
     introPara.setAttribute('class', 'hidden');
     this.removeAttribute('id', 'close');
     this.setAttribute('id', 'more');
-    axis.style.top = headerHeight + 22 + 'px';
+    setHeights();
     document.getElementById('more').onclick = revealFunction;
   }
 
@@ -206,7 +212,7 @@ document.onreadystatechange = function() {
     introPara.removeAttribute('class', 'hidden');
     this.removeAttribute('id', 'more');
     this.setAttribute('id', 'close');
-    axis.style.top = headerHeight + 22 + 'px';
+    setHeights();
     document.getElementById('close').onclick = closeFunction;
   }
 
