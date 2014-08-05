@@ -40,12 +40,7 @@ function draw(){
     return diff;
   }
 
-
-  function drawLine (diff, line, reason, startDiff) {
-
-    var lineClass = '.line-' + line;
-
-    function colorGenerator(reason) {     
+  function colorGenerator(reason) {     
       var thisColor;
       var colors =  { 
           'interest': '163, 71%, 47%, ',
@@ -59,6 +54,11 @@ function draw(){
       thisColor = colors[reason] || '334, 82%, 47%, ';
       return thisColor;
     }
+
+
+  function drawLine (diff, line, reason, startDiff) {
+
+    var lineClass = '.line-' + line;
 
     function boxHeightGenerator (index) {
       if (index % 20 === 0){
@@ -161,9 +161,14 @@ function draw(){
         .enter()
         .append('circle')
         .attr('cx', function(d){return d.startDiff;})
-        .attr('cy', 20)
-        .attr('r', 4)
-        .attr('fill', 'blue');
+        .attr('cy', 30)
+        .attr('r', 6)
+        .attr('fill', function(d) {
+          var thisReason = d.reason;
+          var reasonColor = colorGenerator(thisReason);
+          console.log(reasonColor);
+          return 'hsla(' + reasonColor + '.5)'
+        });
 
     })();
         
