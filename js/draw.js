@@ -1,10 +1,14 @@
 function draw(){
 
-  var width = 4800;
+  var width = 4800,
+      axisHeight = 60;
+
+
   var lineScale = d3.scale.linear()
+    .range([0, width - 10]),
+    startScale = d3.time.scale()
     .range([0, width - 10]);
-  var startScale = d3.scale.linear()
-    .range([0, width - 10]);
+  
   var today = new Date(),
       earliest = new Date(2010, 0, 1),
       maxDate = Date.parse(today),
@@ -145,6 +149,34 @@ function draw(){
     data.forEach(function(element, index){
       drawLine(element.diff, index, element.reason, element.startDiff);
     });
+
+    (function drawAxis(){
+      var axisSvg = d3.select('.axis')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', axisHeight);
+
+      var axis = d3.svg.axis()
+          .scale(startScale)
+          .ticks(d3.time.months)
+          .orient('bottom');
+
+
+      axisSvg.selectAll('circle')
+        .data(data)
+        .enter()
+        .append('circle')
+        .attr('cx', function(d){return d.startDiff;})
+        .attr('cy', 20)
+        .attr('r', 4)
+        .attr('fill', 'blue');
+      
+      axisSvg.append('g')
+        .attr('transform', 'translate(0,' + 30 + ')')
+        .call(axis);
+
+
+    })();
         
     }
   )
