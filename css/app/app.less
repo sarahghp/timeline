@@ -1,6 +1,6 @@
 body {
-	margin: 0;
-	font-family: "Open Sans", sans-serif;
+	margin: 30px;
+	font-family: 'Lekton', sans-serif;
 	font-size: 12px;
 }
 
@@ -11,40 +11,86 @@ g {
 header {
 	position: fixed;
 	width: 100%;
-	padding: 30px;
+	padding: 30px 0;
 	top: 0;
-	background-color: hsla(208, 95%, 65%, .7);
 	color: hsla(208, 95%, 21%, 1);
 	z-index: 5;
 
 	h1 {
-
+		font-family: 'Raleway', sans-serif;
+		text-transform: uppercase;
+		font-size: 50px;
+		margin: 0;
 	}
 
-	.intro {
-		width: 800px;
+	.intro p {
+		width: 1000px;
+		font-family: 'Lekton', sans-serif;
+		font-size: 20px;
+		line-height: 32px;
+
+		span {
+			font-weight: 700;
+		}
 	}
 
 }
 
+#gifts {
+	color: hsl(283, 51%, 50%);
+}
+
+#interest {
+	color: hsl(163, 71%, 47%);
+}
+
+#recommended {
+	color: hsl(208, 66%, 50%);
+}
+	
+#fascination {
+	color: hsl(1, 100%, 67%);
+}
+
+#existential-crisis {
+	color: hsl(241, 12%, 50%);
+}
+
+#comfort {
+	color: hsl(13, 82%, 61%);
+}
+
+#other {
+	color: hsl(334, 82%, 47%);
+}
+
 
 .axis {
-	height: 100%;
+	height: auto;
 	width: 4800px;
 	position: absolute;
-	top: 200px;
-	margin-bottom: 60px;
+	top: 352px;
+
+	.right {
+		position: absolute;
+		right: 0;
+	}
+
+	.left {
+		position: absolute;
+		left: 0;
+	}
 }
 
 
 .chart {
 	height: 100%;
-	// margin-top: 260px;
+	margin-top: 400px;
 }
 
 #tooltip {
 	position: absolute;
-	width: 400px;
+	width: 420px;
 	height: auto;
 	padding: 5px 10px;
 	background-color: hsla(360, 100%, 100%, .7);
