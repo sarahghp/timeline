@@ -17,10 +17,11 @@ function draw(){
 
   function setPossession (possession) {
 
-    var maxPossession = Date.parse(new Date(2013, 7, 1));
+    var maxPossession = Date.parse(new Date(2013, 7, 1)),
+        minPossession = Date.parse(new Date(2010, 1, 1));
 
     if (possession === ''){
-      possession = Math.floor(Math.random() * (maxPossession - minDate) + minDate);
+      possession = Math.floor(Math.random() * (maxPossession - minPossession) + minPossession);
     } else {
       possession = possession.split('-');
       possession = new Date(possession[0], possession[1], possession[2]);
@@ -150,7 +151,7 @@ function draw(){
       drawLine(element.diff, index, element.reason, element.startDiff);
     });
 
-    (function drawAxis(){
+    
       var axisSvg = d3.select('#axis')
         .append('svg')
         .attr('width', width)
@@ -168,8 +169,6 @@ function draw(){
           var reasonColor = colorGenerator(thisReason);
           return 'hsla(' + reasonColor + '.5)'
         });
-
-    })();
         
     }
   )
@@ -215,12 +214,4 @@ document.onreadystatechange = function() {
     setHeights();
     document.getElementById('close').onclick = closeFunction;
   }
-
-
-  
- 
-
-
-
-
 }

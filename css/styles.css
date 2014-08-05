@@ -28,6 +28,7 @@ header h1 .fa-plus {
   position: fixed;
   right: 30px;
   transform: rotate(45deg);
+  transition: transform 2s;
   cursor: pointer;
 }
 header h1 .fa-plus#more {
