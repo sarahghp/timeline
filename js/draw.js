@@ -203,11 +203,15 @@ document.onreadystatechange = function() {
     introPara.setAttribute('class', 'hidden');
     this.removeAttribute('id', 'close');
     this.setAttribute('id', 'more');
+    window.setTimeout(function(){
+      introPara.style.display = 'none';
+    }, 500);
     setHeights();
     document.getElementById('more').onclick = revealFunction;
   }
 
   function revealFunction () {
+    introPara.style.display = 'block';
     introPara.removeAttribute('class', 'hidden');
     this.removeAttribute('id', 'more');
     this.setAttribute('id', 'close');
