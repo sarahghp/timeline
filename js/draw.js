@@ -192,13 +192,6 @@ document.onreadystatechange = function() {
     chart.style.marginTop = headerHeight + 120 + 'px';
   };
 
-  setHeights();
-  closeButton.onclick = closeFunction;
-  
-  window.onscroll = function(){
-    axis.style.left = -(window.scrollX) + 'px';
-  };
-
   function closeFunction() {
     $('#intro-para').slideToggle('.3s');
     this.removeAttribute('id', 'close');
@@ -214,4 +207,31 @@ document.onreadystatechange = function() {
     document.getElementById('close').onclick = closeFunction;
     window.setTimeout(setHeights, 300);
   }
+
+  function setHighlight(highlight){
+    var g = chart.getElementsByTagName('g');
+    for (var i = 0; i < g.length; i++) {
+      var attributes = g[i].getAttribute('class');
+      g[i].setAttribute('class', attributes + ' drop-opacity');
+    }
+
+
+    var gifts = document.getElementsByClassName('gift');
+    for (var i = 0; i < gifts.length; i++) {
+      var attributes = gifts[i].getAttribute('class');
+      gifts[i].setAttribute('class', attributes + ' highlight');
+    }
+
+  }
+
+  document.getElementById('gift').onclick = function(){return setHighlight('gift')};
+
+  setHeights();
+  closeButton.onclick = closeFunction;
+  
+  window.onscroll = function(){
+    axis.style.left = -(window.scrollX) + 'px';
+  };
+
+
 };
