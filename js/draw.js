@@ -178,60 +178,59 @@ function draw(){
 document.onreadystatechange = function() {
   if (document.readyState == 'complete'){
     draw();
-  }
-
-  var header = document.getElementById('intro-header'),
-      axis = document.getElementById('axis'),
-      chart = document.getElementById('chart')
-      introPara = document.getElementById('intro-para'),
-      closeButton = document.getElementById('close');
-
-  function setHeights() {
-    headerHeight = header.offsetHeight;
-    axis.style.top = headerHeight + 20 + 'px';
-    chart.style.marginTop = headerHeight + 120 + 'px';
-  };
-
-  function closeFunction() {
-    $('#intro-para').slideToggle('.3s');
-    this.removeAttribute('id', 'close');
-    this.setAttribute('id', 'more');
-    document.getElementById('more').onclick = revealFunction;
-    window.setTimeout(setHeights, 300);
-  };
-
-  function revealFunction () {
-    $('#intro-para').slideToggle('.3s');
-    this.removeAttribute('id', 'more');
-    this.setAttribute('id', 'close');
-    document.getElementById('close').onclick = closeFunction;
-    window.setTimeout(setHeights, 300);
-  }
-
-  function setHighlight(highlight){
-    var g = chart.getElementsByTagName('g');
-    for (var i = 0; i < g.length; i++) {
-      var attributes = g[i].getAttribute('class');
-      g[i].setAttribute('class', attributes + ' drop-opacity');
-    }
-
-
-    var gifts = document.getElementsByClassName('gift');
-    for (var i = 0; i < gifts.length; i++) {
-      var attributes = gifts[i].getAttribute('class');
-      gifts[i].setAttribute('class', attributes + ' highlight');
-    }
-
-  }
-
-  document.getElementById('gift').onclick = function(){return setHighlight('gift')};
-
-  setHeights();
-  closeButton.onclick = closeFunction;
   
-  window.onscroll = function(){
-    axis.style.left = -(window.scrollX) + 'px';
-  };
 
+    var header = document.getElementById('intro-header'),
+        axis = document.getElementById('axis'),
+        chart = document.getElementById('chart')
+        introPara = document.getElementById('intro-para'),
+        closeButton = document.getElementById('close');
 
+    function setHeights() {
+      headerHeight = header.offsetHeight;
+      axis.style.top = headerHeight + 20 + 'px';
+      chart.style.marginTop = headerHeight + 120 + 'px';
+    };
+
+    function closeFunction() {
+      $('#intro-para').slideToggle('.3s');
+      this.removeAttribute('id', 'close');
+      this.setAttribute('id', 'more');
+      document.getElementById('more').onclick = revealFunction;
+      window.setTimeout(setHeights, 300);
+    };
+
+    function revealFunction () {
+      $('#intro-para').slideToggle('.3s');
+      this.removeAttribute('id', 'more');
+      this.setAttribute('id', 'close');
+      document.getElementById('close').onclick = closeFunction;
+      window.setTimeout(setHeights, 300);
+    }
+
+    function setHighlight(highlight){
+      var g = chart.getElementsByTagName('g');
+      for (var i = 0; i < g.length; i++) {
+        var attributes = g[i].getAttribute('class');
+        g[i].setAttribute('class', attributes + ' drop-opacity');
+      }
+
+      var highlights = document.getElementsByClassName('' + highlight + '');
+      for (var i = 0; i < highlights.length; i++) {
+        var attributes = highlights[i].getAttribute('class');
+        highlights[i].setAttribute('class', attributes + ' highlight');
+      }
+
+    }
+
+    document.getElementById('gift').onclick = function(){return setHighlight('gift')};
+
+    setHeights();
+    closeButton.onclick = closeFunction;
+    
+    window.onscroll = function(){
+      axis.style.left = -(window.scrollX) + 'px';
+    };
+
+  }
 };
