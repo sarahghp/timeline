@@ -188,7 +188,7 @@ document.onreadystatechange = function() {
 
   function setHeights() {
     headerHeight = header.offsetHeight;
-    axis.style.top = headerHeight + 22 + 'px';
+    axis.style.top = headerHeight + 20 + 'px';
     chart.style.marginTop = headerHeight + 120 + 'px';
   };
 
