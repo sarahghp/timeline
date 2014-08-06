@@ -188,11 +188,11 @@ document.onreadystatechange = function() {
 
   function setHeights() {
     headerHeight = header.offsetHeight;
-    axis.style.top = headerHeight + 20 + 'px';
+    axis.style.top = headerHeight + 22 + 'px';
     chart.style.marginTop = headerHeight + 120 + 'px';
   };
 
-  setHeights()
+  setHeights();
   closeButton.onclick = closeFunction;
   
   window.onscroll = function(){
@@ -200,22 +200,18 @@ document.onreadystatechange = function() {
   };
 
   function closeFunction() {
-    introPara.setAttribute('class', 'hidden');
+    $('#intro-para').slideToggle('.3s');
     this.removeAttribute('id', 'close');
     this.setAttribute('id', 'more');
-    window.setTimeout(function(){
-      introPara.style.display = 'none';
-    }, 500);
-    setHeights();
     document.getElementById('more').onclick = revealFunction;
-  }
+    window.setTimeout(setHeights, 300);
+  };
 
   function revealFunction () {
-    introPara.style.display = 'block';
-    introPara.removeAttribute('class', 'hidden');
+    $('#intro-para').slideToggle('.3s');
     this.removeAttribute('id', 'more');
     this.setAttribute('id', 'close');
-    setHeights();
     document.getElementById('close').onclick = closeFunction;
+    window.setTimeout(setHeights, 300);
   }
-}
+};

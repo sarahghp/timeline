@@ -39,14 +39,12 @@ header #intro-para {
   font-family: 'Lekton', sans-serif;
   font-size: 16px;
   line-height: 24px;
-  opacity: 1;
-  transition: opacity, .3s;
 }
 header #intro-para span {
   font-weight: 700;
 }
 header #intro-para.hidden {
-  opacity: 0;
+  display: none;
 }
 header .gradient {
   background: linear-gradient(#d1d1d1, rgba(209, 209, 209, 0)) 0 0 no-repeat;
@@ -95,6 +93,7 @@ header .gradient {
   width: 420px;
   height: auto;
   padding: 5px 10px;
+  font-weight: 700;
   background-color: rgba(255, 255, 255, 0.7);
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
