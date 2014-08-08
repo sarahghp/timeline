@@ -248,29 +248,7 @@ document.onreadystatechange = function() {
       }
 
       document.getElementById('' + highlight + '').setAttribute('class', 'highlight');
-
-      var clear = document.getElementById('clear');
-      clear.removeAttribute('class', 'hidden');
       
-
-      function clearAll () {
-          for (var i = 0; i < g.length; i++) {
-            g[i].removeAttribute('class', 'drop-opacity');
-          }
-          for (var i = 0; i < c.length; i++) {
-            c[i].removeAttribute('class', 'drop-opacity');
-          }
-          for (var i = 0; i < h.length; i++) {
-            h[i].removeAttribute('class', 'highlight');
-          }
-
-          var highlighted = document.getElementsByTagName('a');
-          for (var i = 0; i < highlighted.length; i++) {
-            highlighted[i].removeAttribute('class', 'highlight');
-          }
-          clear.setAttribute('class', 'hidden');
-        }
-      clear.onclick = clearAll;
     }
 
     setHeights();
