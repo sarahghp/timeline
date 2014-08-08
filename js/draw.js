@@ -248,6 +248,7 @@ document.onreadystatechange = function() {
       }
 
       document.getElementById('' + highlight + '').setAttribute('class', 'highlight');
+      document.getElementById('reload').removeAttribute('class', 'hidden')
       
     }
 

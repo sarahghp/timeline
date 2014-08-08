@@ -16,7 +16,7 @@ header {
   background-color: rgba(255, 255, 255, 0.7);
 }
 header article {
-  padding: 30px;
+  padding: 30px 30px 15px 30px;
 }
 header h1 {
   font-family: 'Londrina Outline', sans-serif;
@@ -73,8 +73,9 @@ header .gradient {
 #other {
   color: #da166b;
 }
-#clear {
-  color: #ff3333;
+#reload {
+  font-style: italic;
+  font-size: 12px;
 }
 #axis {
   height: auto;
