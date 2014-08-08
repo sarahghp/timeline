@@ -210,6 +210,7 @@ document.onreadystatechange = function() {
     }
 
     function setHighlight(highlight){
+
       var g = chart.getElementsByTagName('g');
       for (var i = 0; i < g.length; i++) {
         var attributes = g[i].getAttribute('class');
@@ -222,20 +223,49 @@ document.onreadystatechange = function() {
         c[i].setAttribute('class', attributes + ' drop-opacity');
       }
 
-      var highlights = document.getElementsByClassName('' + highlight + '');
-      for (var i = 0; i < highlights.length; i++) {
-        var attributes = highlights[i].getAttribute('class');
-        highlights[i].setAttribute('class', attributes + ' highlight');
+      var h = document.getElementsByClassName('' + highlight + '');
+      for (var i = 0; i < h.length; i++) {
+        var attributes = h[i].getAttribute('class');
+        h[i].setAttribute('class', attributes + ' highlight');
       }
 
       document.getElementById('' + highlight + '').setAttribute('class', 'highlight');
 
-    }
+      var clear = document.getElementById('clear');
+      clear.removeAttribute('class', 'hidden');
+      
+      clear.onclick = function (){
+        for (var i = 0; i < g.length; i++) {
+          g[i].removeAttribute('class', 'drop-opacity');
+        }
+        for (var i = 0; i < c.length; i++) {
+          var attributes = c[i].getAttribute('class');
+          c[i].removeAttribute('class', attributes + ' drop-opacity');
+        }
+        for (var i = 0; i < h.length; i++) {
+          h[i].removeAttribute('class', 'highlight');
+        }
 
-    document.getElementById('gift').onclick = function(){return setHighlight('gift')};
+        var highlighted = document.getElementsByTagName('a');
+        console.log(highlighted);
+        for (var i = 0; i < highlighted.length; i++) {
+          highlighted[i].removeAttribute('class', 'highlight');
+        }
+
+        clear.setAttribute('class', 'hidden');
+
+      }
+    }
 
     setHeights();
     closeButton.onclick = closeFunction;
+
+    document.getElementById('interest').onclick = function(){return setHighlight('interest')};
+    document.getElementById('recommended').onclick = function(){return setHighlight('recommended')};
+    document.getElementById('fascination').onclick = function(){return setHighlight('fascination')};
+    document.getElementById('gift').onclick = function(){return setHighlight('gift')};
+    document.getElementById('existential-crisis').onclick = function(){return setHighlight('existential-crisis')};
+    document.getElementById('comfort').onclick = function(){return setHighlight('comfort')};
     
     window.onscroll = function(){
       axis.style.left = -(window.scrollX) + 'px';

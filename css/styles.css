@@ -47,9 +47,6 @@ header #intro-para a {
 header #intro-para a:hover {
   text-decoration: underline;
 }
-header #intro-para.hidden {
-  display: none;
-}
 header .gradient {
   background: linear-gradient(#d1d1d1, rgba(209, 209, 209, 0)) 0 0 no-repeat;
   height: 10px;
@@ -109,9 +106,6 @@ header .gradient {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   pointer-events: none;
 }
-#tooltip.hidden {
-  display: none;
-}
 #tooltip p {
   margin: 0;
   line-height: 20px;
@@ -124,4 +118,7 @@ header .gradient {
   opacity: 1;
   pointer-events: all;
   border-bottom: 3px dotted;
+}
+.hidden {
+  display: none;
 }
