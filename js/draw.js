@@ -212,21 +212,39 @@ document.onreadystatechange = function() {
     function setHighlight(highlight){
 
       var g = chart.getElementsByTagName('g');
-      for (var i = 0; i < g.length; i++) {
-        var attributes = g[i].getAttribute('class');
-        g[i].setAttribute('class', attributes + ' drop-opacity');
-      }
-
       var c = axis.getElementsByTagName('circle');
-      for (var i = 0; i < c.length; i++) {
-        var attributes = c[i].getAttribute('class');
-        c[i].setAttribute('class', attributes + ' drop-opacity');
-      }
-
       var h = document.getElementsByClassName('' + highlight + '');
-      for (var i = 0; i < h.length; i++) {
-        var attributes = h[i].getAttribute('class');
-        h[i].setAttribute('class', attributes + ' highlight');
+
+      if (highlight === 'other') {
+
+        var feels = ['gift', 'interest', 'recommended', 'fascination', 'existential crisis', 'comfort', 'consolation'];
+
+        for (var i = 0; i < feels.length; i++) {
+          var array = document.getElementsByClassName(feels[i] + '');
+
+          for (var j = 0; j < array.length; j++) {
+            var attributes = array[j].getAttribute('class');
+            array[j].setAttribute('class', attributes + ' drop-opacity');
+          }
+
+        }
+
+      } else {
+
+        for (var i = 0; i < g.length; i++) {
+          var attributes = g[i].getAttribute('class');
+          g[i].setAttribute('class', attributes + ' drop-opacity');
+        }
+        
+        for (var i = 0; i < c.length; i++) {
+          var attributes = c[i].getAttribute('class');
+          c[i].setAttribute('class', attributes + ' drop-opacity');
+        }
+       
+        for (var i = 0; i < h.length; i++) {
+          var attributes = h[i].getAttribute('class');
+          h[i].setAttribute('class', attributes + ' highlight');
+        }
       }
 
       document.getElementById('' + highlight + '').setAttribute('class', 'highlight');
@@ -234,27 +252,25 @@ document.onreadystatechange = function() {
       var clear = document.getElementById('clear');
       clear.removeAttribute('class', 'hidden');
       
-      clear.onclick = function (){
-        for (var i = 0; i < g.length; i++) {
-          g[i].removeAttribute('class', 'drop-opacity');
-        }
-        for (var i = 0; i < c.length; i++) {
-          var attributes = c[i].getAttribute('class');
-          c[i].removeAttribute('class', attributes + ' drop-opacity');
-        }
-        for (var i = 0; i < h.length; i++) {
-          h[i].removeAttribute('class', 'highlight');
-        }
 
-        var highlighted = document.getElementsByTagName('a');
-        console.log(highlighted);
-        for (var i = 0; i < highlighted.length; i++) {
-          highlighted[i].removeAttribute('class', 'highlight');
+      function clearAll () {
+          for (var i = 0; i < g.length; i++) {
+            g[i].removeAttribute('class', 'drop-opacity');
+          }
+          for (var i = 0; i < c.length; i++) {
+            c[i].removeAttribute('class', 'drop-opacity');
+          }
+          for (var i = 0; i < h.length; i++) {
+            h[i].removeAttribute('class', 'highlight');
+          }
+
+          var highlighted = document.getElementsByTagName('a');
+          for (var i = 0; i < highlighted.length; i++) {
+            highlighted[i].removeAttribute('class', 'highlight');
+          }
+          clear.setAttribute('class', 'hidden');
         }
-
-        clear.setAttribute('class', 'hidden');
-
-      }
+      clear.onclick = clearAll;
     }
 
     setHeights();
@@ -266,6 +282,7 @@ document.onreadystatechange = function() {
     document.getElementById('gift').onclick = function(){return setHighlight('gift')};
     document.getElementById('existential-crisis').onclick = function(){return setHighlight('existential-crisis')};
     document.getElementById('comfort').onclick = function(){return setHighlight('comfort')};
+    document.getElementById('other').onclick = function(){return setHighlight('other')};
     
     window.onscroll = function(){
       axis.style.left = -(window.scrollX) + 'px';
