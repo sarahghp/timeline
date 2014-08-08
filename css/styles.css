@@ -76,6 +76,9 @@ header .gradient {
 #other {
   color: #da166b;
 }
+#clear {
+  color: #ff3333;
+}
 #axis {
   height: auto;
   width: 4800px;
@@ -120,4 +123,5 @@ header .gradient {
 .highlight {
   opacity: 1;
   pointer-events: all;
+  border-bottom: 3px dotted;
 }

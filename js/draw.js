@@ -168,7 +168,8 @@ function draw(){
           var thisReason = d.reason;
           var reasonColor = colorGenerator(thisReason);
           return 'hsla(' + reasonColor + '.5)'
-        });
+        })
+        .attr('class', function(d, i){ return d.reason;});
         
     }
   )
@@ -215,11 +216,19 @@ document.onreadystatechange = function() {
         g[i].setAttribute('class', attributes + ' drop-opacity');
       }
 
+      var c = axis.getElementsByTagName('circle');
+      for (var i = 0; i < c.length; i++) {
+        var attributes = c[i].getAttribute('class');
+        c[i].setAttribute('class', attributes + ' drop-opacity');
+      }
+
       var highlights = document.getElementsByClassName('' + highlight + '');
       for (var i = 0; i < highlights.length; i++) {
         var attributes = highlights[i].getAttribute('class');
         highlights[i].setAttribute('class', attributes + ' highlight');
       }
+
+      document.getElementById('' + highlight + '').setAttribute('class', 'highlight');
 
     }
 
