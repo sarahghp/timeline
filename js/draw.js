@@ -74,9 +74,9 @@ function draw(){
     } 
 
     function opacityGenerator (index) {
-      var base = (250/(i + 1)) + .2,
+      var base = (250/(i + 1)) + .2;
           plusOrMinus  = Math.random() > .5 ? 1 : -1 ;
-          adjustment = plusOrMinus * (i/width) * Math.random(),
+          adjustment = plusOrMinus * (i/(width * 2.8)) * Math.random(),
           opacity = Math.max(.1, Math.min((base + adjustment), .7));
       return opacity;
     }
