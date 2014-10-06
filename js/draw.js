@@ -200,6 +200,12 @@ $(document).on('ready', function(){
     axis.css('left', -(window.scrollX) + 'px');
   });
 
+  $.fn.filterfy = function() {
+    this.each(function(){
+      var filter = this; 
+    })
+  };
+
 })
 
 // document.onreadystatechange = function() {
