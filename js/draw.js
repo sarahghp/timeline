@@ -1,16 +1,16 @@
-var DRAWINGSPACE = { 
+var DRAWINGSPACE =  (function(){
+  
+  // TODO: Decide which variables need to be public
 
+  var data = /* ajax call */
 
-}
-
-
-
-
-(function draw(){
+  // Canvas variables
 
   var width = 4800,
-      axisHeight = 60;
+    height = data.length * 30,
+    axisHeight = 60;
 
+  // Scale variables
 
   var lineScale = d3.scale.linear()
     .range([0, width - 10]),
@@ -21,6 +21,64 @@ var DRAWINGSPACE = {
       earliest = new Date(2010, 0, 1),
       maxDate = Date.parse(today),
       minDate = Date.parse(earliest);
+
+
+  return {
+    draw: function(newData){
+        var dataView = data; 
+
+
+    }
+
+    redraw: function(newData) {
+      var dataView = newData,
+          bars = d3.selectAll('g')
+                    .data(dataView),
+          circles = d3.selectAll('circles'),
+                      .data(dataView);
+
+          bars.enter()
+              .append()
+              /* redraw */
+
+          circles.enter()
+              .append()
+              /* redraw */
+
+          bars.update()
+              .append()
+              /* redraw */
+
+          circles.update()
+              .append()
+              /* redraw */
+
+          bars.center()
+              .append()
+              /* redraw */
+
+          circles.center()
+              .append()
+              /* redraw */
+
+
+
+    }
+  };
+
+
+
+})();
+
+
+
+
+
+
+
+(function draw(){
+
+
 
 
   function setPossession (possession) {
@@ -103,7 +161,7 @@ var DRAWINGSPACE = {
 
   d3.csv('js/timeline.csv', function(error, data){
 
-    height = data.length * 30;
+
 
     var svg = d3.select('.chart')
       .append('svg')
