@@ -31,7 +31,7 @@ header h1 .fa-plus {
   transition: transform .3s;
   cursor: pointer;
 }
-header h1 .fa-plus#more {
+header h1 .fa-plus.more {
   transform: rotate(0deg);
 }
 header #intro-para {

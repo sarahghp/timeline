@@ -1,4 +1,4 @@
-function draw(){
+(function draw(){
 
   var width = 4800,
       axisHeight = 60;
@@ -173,99 +173,137 @@ function draw(){
         
     }
   )
-}
+})();
 
 
-document.onreadystatechange = function() {
-  if (document.readyState == 'complete'){
-    draw();
+$(document).on('ready', function(){
+  var header = $('#intro-header'),
+      axis = $('#axis'),
+      chart = $('#chart')
+      introPara = $('#intro-para'),
+      closeButton = $('.close');
+
+  function setHeights() {
+    var headerHeight = header.outerHeight();
+    axis.css('top', headerHeight + 20 + 'px');
+    chart.css('margin-top', headerHeight + 120 + 'px');
+  };
+
+  // function closeFunction() {
+  //   $('#intro-para').slideToggle('.3s');
+  //   this.removeAttribute('id', 'close');
+  //   this.setAttribute('id', 'more');
+  //   document.getElementById('more').onclick = revealFunction;
+  //   window.setTimeout(setHeights, 300);
+  // };
+
+  // function revealFunction () {
+  //   $('#intro-para').slideToggle('.3s');
+  //   this.removeAttribute('id', 'more');
+  //   this.setAttribute('id', 'close');
+  //   document.getElementById('close').onclick = closeFunction;
+  //   window.setTimeout(setHeights, 300);
+  // }
+
+  setHeights();
+  $('h1').on('click', 'i', function(){
+    introPara.slideToggle('.3s');
+    $('i').toggleClass('more close');
+    window.setTimeout(setHeights, 300);
+  })
+
+})
+
+// document.onreadystatechange = function() {
+//   if (document.readyState == 'complete'){
+//     draw();
   
 
-    var header = document.getElementById('intro-header'),
-        axis = document.getElementById('axis'),
-        chart = document.getElementById('chart')
-        introPara = document.getElementById('intro-para'),
-        closeButton = document.getElementById('close');
+//     var header = document.getElementById('intro-header'),
+//         axis = document.getElementById('axis'),
+//         chart = document.getElementById('chart')
+//         introPara = document.getElementById('intro-para'),
+//         closeButton = document.getElementById('close');
 
-    function setHeights() {
-      headerHeight = header.offsetHeight;
-      axis.style.top = headerHeight + 20 + 'px';
-      chart.style.marginTop = headerHeight + 120 + 'px';
-    };
+//     function setHeights() {
+//       headerHeight = header.offsetHeight;
+//       axis.style.top = headerHeight + 20 + 'px';
+//       chart.style.marginTop = headerHeight + 120 + 'px';
+//     };
 
-    function closeFunction() {
-      $('#intro-para').slideToggle('.3s');
-      this.removeAttribute('id', 'close');
-      this.setAttribute('id', 'more');
-      document.getElementById('more').onclick = revealFunction;
-      window.setTimeout(setHeights, 300);
-    };
+//     function closeFunction() {
+//       $('#intro-para').slideToggle('.3s');
+//       this.removeAttribute('id', 'close');
+//       this.setAttribute('id', 'more');
+//       document.getElementById('more').onclick = revealFunction;
+//       window.setTimeout(setHeights, 300);
+//     };
 
-    function revealFunction () {
-      $('#intro-para').slideToggle('.3s');
-      this.removeAttribute('id', 'more');
-      this.setAttribute('id', 'close');
-      document.getElementById('close').onclick = closeFunction;
-      window.setTimeout(setHeights, 300);
-    }
+//     function revealFunction () {
+//       $('#intro-para').slideToggle('.3s');
+//       this.removeAttribute('id', 'more');
+//       this.setAttribute('id', 'close');
+//       document.getElementById('close').onclick = closeFunction;
+//       window.setTimeout(setHeights, 300);
+//     }
 
-    function setHighlight(highlight){
+//     function setHighlight(highlight){
 
-      var g = chart.getElementsByTagName('g');
-      var c = axis.getElementsByTagName('circle');
-      var h = document.getElementsByClassName('' + highlight + '');
+//       var g = chart.getElementsByTagName('g');
+//       var c = axis.getElementsByTagName('circle');
+//       var h = document.getElementsByClassName('' + highlight + '');
 
-      if (highlight === 'other') {
+//       if (highlight === 'other') {
 
-        var feels = ['gift', 'interest', 'recommended', 'fascination', 'existential crisis', 'comfort', 'consolation'];
+//         var feels = ['gift', 'interest', 'recommended', 'fascination', 'existential crisis', 'comfort', 'consolation'];
 
-        for (var i = 0; i < feels.length; i++) {
-          var array = document.getElementsByClassName(feels[i] + '');
+//         for (var i = 0; i < feels.length; i++) {
+//           var array = document.getElementsByClassName(feels[i] + '');
 
-          for (var j = 0; j < array.length; j++) {
-            var attributes = array[j].getAttribute('class');
-            array[j].setAttribute('class', attributes + ' drop-opacity');
-          }
+//           for (var j = 0; j < array.length; j++) {
+//             var attributes = array[j].getAttribute('class');
+//             array[j].setAttribute('class', attributes + ' drop-opacity');
+//           }
 
-        }
+//         }
 
-      } else {
+//       } else {
 
-        for (var i = 0; i < g.length; i++) {
-          var attributes = g[i].getAttribute('class');
-          g[i].setAttribute('class', attributes + ' drop-opacity');
-        }
+//         for (var i = 0; i < g.length; i++) {
+//           var attributes = g[i].getAttribute('class');
+//           g[i].setAttribute('class', attributes + ' drop-opacity');
+//         }
         
-        for (var i = 0; i < c.length; i++) {
-          var attributes = c[i].getAttribute('class');
-          c[i].setAttribute('class', attributes + ' drop-opacity');
-        }
+//         for (var i = 0; i < c.length; i++) {
+//           var attributes = c[i].getAttribute('class');
+//           c[i].setAttribute('class', attributes + ' drop-opacity');
+//         }
        
-        for (var i = 0; i < h.length; i++) {
-          var attributes = h[i].getAttribute('class');
-          h[i].setAttribute('class', attributes + ' highlight');
-        }
-      }
+//         for (var i = 0; i < h.length; i++) {
+//           var attributes = h[i].getAttribute('class');
+//           h[i].setAttribute('class', attributes + ' highlight');
+//         }
+//       }
 
-      document.getElementById('' + highlight + '').setAttribute('class', 'highlight');
-      document.getElementById('reload').removeAttribute('class', 'hidden')
+//       document.getElementById('' + highlight + '').setAttribute('class', 'highlight');
+//       document.getElementById('reload').removeAttribute('class', 'hidden')
       
-    }
+//     }
 
-    setHeights();
-    closeButton.onclick = closeFunction;
+//     setHeights();
+//     closeButton.onclick = closeFunction;
 
-    document.getElementById('interest').onclick = function(){return setHighlight('interest')};
-    document.getElementById('recommended').onclick = function(){return setHighlight('recommended')};
-    document.getElementById('fascination').onclick = function(){return setHighlight('fascination')};
-    document.getElementById('gift').onclick = function(){return setHighlight('gift')};
-    document.getElementById('existential-crisis').onclick = function(){return setHighlight('existential-crisis')};
-    document.getElementById('comfort').onclick = function(){return setHighlight('comfort')};
-    document.getElementById('other').onclick = function(){return setHighlight('other')};
+//     document.getElementById('interest').onclick = function(){return setHighlight('interest')};
+//     document.getElementById('recommended').onclick = function(){return setHighlight('recommended')};
+//     document.getElementById('fascination').onclick = function(){return setHighlight('fascination')};
+//     document.getElementById('gift').onclick = function(){return setHighlight('gift')};
+//     document.getElementById('existential-crisis').onclick = function(){return setHighlight('existential-crisis')};
+//     document.getElementById('comfort').onclick = function(){return setHighlight('comfort')};
+//     document.getElementById('other').onclick = function(){return setHighlight('other')};
     
-    window.onscroll = function(){
-      axis.style.left = -(window.scrollX) + 'px';
-    };
+//     window.onscroll = function(){
+//       axis.style.left = -(window.scrollX) + 'px';
+//     };
 
-  }
-};
+//   }
+// };
