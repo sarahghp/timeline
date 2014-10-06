@@ -1,3 +1,11 @@
+var DRAWINGSPACE = { 
+
+
+}
+
+
+
+
 (function draw(){
 
   var width = 4800,
