@@ -48,7 +48,7 @@
           'recommended': '208, 66%, 50%, ',
           'gift': '283, 51%, 50%, ',
           'fascination': '355, 100%, 67%, ',
-          'existential crisis': '241, 12%, 50%, ',
+          'existential-crisis': '241, 12%, 50%, ',
           'comfort': '13, 82%, 61%, ',
           'consolation': '13, 82%, 61%, ',
         }
@@ -105,6 +105,7 @@
     data.forEach(function(element, index){
       element.periodical = +element.periodical;
       element.reason = element['reason'].toLowerCase();
+      if (element.reason === 'existential crisis') { element.reason = 'existential-crisis'}; 
       element.possession = setPossession(element.possession);
       element.diff = setDiffs('diff', element.possession);
       element.startDiff = setDiffs('startDiff', element.possession); 
@@ -185,8 +186,8 @@ $(document).on('ready', function(){
 
   function setHeights() {
     var headerHeight = header.outerHeight();
-    axis.css('top', headerHeight + 20 + 'px');
-    chart.css('margin-top', headerHeight + 120 + 'px');
+    axis.css('top', headerHeight + 40 + 'px');
+    chart.css('margin-top', headerHeight + 140 + 'px');
   };
   setHeights();
   
@@ -202,9 +203,24 @@ $(document).on('ready', function(){
 
   $.fn.filterfy = function() {
     this.each(function(){
-      var filter = this; 
+      var filter = $(this);
+      filter.on('click.filterfy', function(){
+        var type = filter.data('filter');
+        $('.highlight').removeClass('highlight');
+        if (type === 'clear'){
+          d3.selectAll('g.hidden').classed('hidden', false);
+          d3.selectAll(filter).classed('hidden', true);
+          return
+        }
+        d3.selectAll('.hidden').classed('hidden', false);
+        d3.selectAll('g:not(.' + type + ')').classed('hidden', true);
+        d3.selectAll('circle:not(.' + type + ')').classed('hidden', true);
+        filter.addClass('highlight');
+      })
     })
   };
+
+  $('.filter').filterfy();
 
 })
 
