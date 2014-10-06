@@ -207,22 +207,20 @@ $(document).on('ready', function(){
       filter.on('click.filterfy', function(){
         var type = filter.data('filter');
         $('.highlight').removeClass('highlight');
+        filter.addClass('highlight');
         if (type === 'clear'){
           d3.selectAll('g.hidden').classed('hidden', false);
           d3.selectAll(filter).classed('hidden', true);
-          return;
         } else if (type === 'other') {
           var feels = ['gift', 'interest', 'recommended', 'fascination', 'existential-crisis', 'comfort', 'consolation'];
           feels.forEach(function(element){
             console.log(d3.selectAll('.' + element + ''));
-            d3.selectAll('.' + element + '').classed('hidden', true)
-            return;
+            d3.selectAll('.' + element + '').classed('hidden', true);
           })
         } else {
           d3.selectAll('.hidden:not(#tooltip)').classed('hidden', false);
           d3.selectAll('g:not(.' + type + ')').classed('hidden', true);
           d3.selectAll('circle:not(.' + type + ')').classed('hidden', true);
-          filter.addClass('highlight');
         }
       })
     })
