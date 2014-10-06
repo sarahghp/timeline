@@ -188,64 +188,22 @@ $(document).on('ready', function(){
     axis.css('top', headerHeight + 20 + 'px');
     chart.css('margin-top', headerHeight + 120 + 'px');
   };
-
-  // function closeFunction() {
-  //   $('#intro-para').slideToggle('.3s');
-  //   this.removeAttribute('id', 'close');
-  //   this.setAttribute('id', 'more');
-  //   document.getElementById('more').onclick = revealFunction;
-  //   window.setTimeout(setHeights, 300);
-  // };
-
-  // function revealFunction () {
-  //   $('#intro-para').slideToggle('.3s');
-  //   this.removeAttribute('id', 'more');
-  //   this.setAttribute('id', 'close');
-  //   document.getElementById('close').onclick = closeFunction;
-  //   window.setTimeout(setHeights, 300);
-  // }
-
   setHeights();
+  
   $('h1').on('click', 'i', function(){
     introPara.slideToggle('.3s');
     $('i').toggleClass('more close');
     window.setTimeout(setHeights, 300);
-  })
+  });
+
+  $(window).on('scroll', function(){
+    axis.css('left', -(window.scrollX) + 'px');
+  });
 
 })
 
 // document.onreadystatechange = function() {
 //   if (document.readyState == 'complete'){
-//     draw();
-  
-
-//     var header = document.getElementById('intro-header'),
-//         axis = document.getElementById('axis'),
-//         chart = document.getElementById('chart')
-//         introPara = document.getElementById('intro-para'),
-//         closeButton = document.getElementById('close');
-
-//     function setHeights() {
-//       headerHeight = header.offsetHeight;
-//       axis.style.top = headerHeight + 20 + 'px';
-//       chart.style.marginTop = headerHeight + 120 + 'px';
-//     };
-
-//     function closeFunction() {
-//       $('#intro-para').slideToggle('.3s');
-//       this.removeAttribute('id', 'close');
-//       this.setAttribute('id', 'more');
-//       document.getElementById('more').onclick = revealFunction;
-//       window.setTimeout(setHeights, 300);
-//     };
-
-//     function revealFunction () {
-//       $('#intro-para').slideToggle('.3s');
-//       this.removeAttribute('id', 'more');
-//       this.setAttribute('id', 'close');
-//       document.getElementById('close').onclick = closeFunction;
-//       window.setTimeout(setHeights, 300);
-//     }
 
 //     function setHighlight(highlight){
 
@@ -290,8 +248,6 @@ $(document).on('ready', function(){
       
 //     }
 
-//     setHeights();
-//     closeButton.onclick = closeFunction;
 
 //     document.getElementById('interest').onclick = function(){return setHighlight('interest')};
 //     document.getElementById('recommended').onclick = function(){return setHighlight('recommended')};
@@ -300,10 +256,5 @@ $(document).on('ready', function(){
 //     document.getElementById('existential-crisis').onclick = function(){return setHighlight('existential-crisis')};
 //     document.getElementById('comfort').onclick = function(){return setHighlight('comfort')};
 //     document.getElementById('other').onclick = function(){return setHighlight('other')};
-    
-//     window.onscroll = function(){
-//       axis.style.left = -(window.scrollX) + 'px';
-//     };
-
 //   }
 // };
