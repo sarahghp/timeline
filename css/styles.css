@@ -45,7 +45,7 @@ header #intro-para a {
   text-decoration: none;
 }
 header #intro-para a:hover {
-  text-decoration: underline;
+  border-bottom: 3px dotted;
 }
 header .gradient {
   background: linear-gradient(#d1d1d1, rgba(209, 209, 209, 0)) 0 0 no-repeat;
