@@ -210,12 +210,20 @@ $(document).on('ready', function(){
         if (type === 'clear'){
           d3.selectAll('g.hidden').classed('hidden', false);
           d3.selectAll(filter).classed('hidden', true);
-          return
+          return;
+        } else if (type === 'other') {
+          var feels = ['gift', 'interest', 'recommended', 'fascination', 'existential-crisis', 'comfort', 'consolation'];
+          feels.forEach(function(element){
+            console.log(d3.selectAll('.' + element + ''));
+            d3.selectAll('.' + element + '').classed('hidden', true)
+            return;
+          })
+        } else {
+          d3.selectAll('.hidden:not(#tooltip)').classed('hidden', false);
+          d3.selectAll('g:not(.' + type + ')').classed('hidden', true);
+          d3.selectAll('circle:not(.' + type + ')').classed('hidden', true);
+          filter.addClass('highlight');
         }
-        d3.selectAll('.hidden').classed('hidden', false);
-        d3.selectAll('g:not(.' + type + ')').classed('hidden', true);
-        d3.selectAll('circle:not(.' + type + ')').classed('hidden', true);
-        filter.addClass('highlight');
       })
     })
   };
