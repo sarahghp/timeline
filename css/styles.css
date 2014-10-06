@@ -31,7 +31,7 @@ header h1 .fa-plus {
   transition: transform .3s;
   cursor: pointer;
 }
-header h1 .fa-plus#more {
+header h1 .fa-plus.more {
   transform: rotate(0deg);
 }
 header #intro-para {
@@ -45,32 +45,32 @@ header #intro-para a {
   text-decoration: none;
 }
 header #intro-para a:hover {
-  text-decoration: underline;
+  border-bottom: 3px dotted;
 }
 header .gradient {
   background: linear-gradient(#d1d1d1, rgba(209, 209, 209, 0)) 0 0 no-repeat;
   height: 10px;
   padding: 0;
 }
-#gift {
+[data-filter="gift"] {
   color: #9c3ec1;
 }
-#interest {
+[data-filter="interest"] {
   color: #23cd9d;
 }
-#recommended {
+[data-filter="recommended"] {
   color: #2b85d4;
 }
-#fascination {
+[data-filter="fascination"] {
   color: rgba(255, 87, 101, 0.7);
 }
-#existential-crisis {
+[data-filter="existential-crisis"] {
   color: #71708f;
 }
-#comfort {
+[data-filter="comfort"] {
   color: #ed6d4a;
 }
-#other {
+[data-filter="other"] {
   color: #da166b;
 }
 #reload {
