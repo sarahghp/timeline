@@ -208,6 +208,7 @@ $(document).on('ready', function(){
         var type = filter.data('filter');
         $('.highlight').removeClass('highlight');
         filter.addClass('highlight');
+        d3.selectAll('.hidden:not(#tooltip)').classed('hidden', false);
         if (type === 'clear'){
           d3.selectAll('g.hidden').classed('hidden', false);
           d3.selectAll(filter).classed('hidden', true);
@@ -218,7 +219,6 @@ $(document).on('ready', function(){
             d3.selectAll('.' + element + '').classed('hidden', true);
           })
         } else {
-          d3.selectAll('.hidden:not(#tooltip)').classed('hidden', false);
           d3.selectAll('g:not(.' + type + ')').classed('hidden', true);
           d3.selectAll('circle:not(.' + type + ')').classed('hidden', true);
         }
