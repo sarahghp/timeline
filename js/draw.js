@@ -69,7 +69,7 @@ var DRAWINGSPACE =  (function(){
       element.diff = Math.floor(lineScale(element.diff));
       element.startDiff = Math.floor(startScale(element.startDiff));
     }); 
-  };
+  }
 
   // Generators
 
@@ -86,7 +86,7 @@ var DRAWINGSPACE =  (function(){
         }
       thisColor = colors[reason] || '334, 82%, 47%, ';
       return thisColor;
-    }  
+  }  
 
   function boxHeightGenerator (index) {
     if (index % 20 === 0){
@@ -123,6 +123,21 @@ var DRAWINGSPACE =  (function(){
     }
   }
 
+  function redrawLine (diff, line, reason, startDiff) {
+
+    var lineClass = '.line-' + line;
+
+    for (var i = 0; i < diff; i+=10) {
+      d3.selectAll(lineClass)
+        .append('rect')
+          .attr('x', i + startDiff)
+          .attr('y', (line * 30) + 15)
+          .attr('width', 10)
+          .attr('height', boxHeightGenerator(i))
+          .attr('fill', 'hsla(' + colorGenerator(reason) + opacityGenerator(i) +')');
+    }
+  }
+
   function filterData(toFilter, reasons, clear) {
       var clear = clear || false;
       if (!clear){
@@ -135,7 +150,7 @@ var DRAWINGSPACE =  (function(){
       } else {
         return globalData;
       }     
-  };
+  }
 
   return {
     draw: function(initData){
@@ -238,8 +253,9 @@ var DRAWINGSPACE =  (function(){
 
           bars.transition()
               .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;});
+          d3.selectAll('rect').remove();
           dataView.forEach(function(element, index){
-            drawLine(element.diff, index, element.reason, element.startDiff);
+            redrawLine(element.diff, index, element.reason, element.startDiff);
           });
 
           circles.transition()
@@ -248,7 +264,8 @@ var DRAWINGSPACE =  (function(){
               var reasonColor = colorGenerator(thisReason);
               return 'hsla(' + reasonColor + '.5)'
             })
-            .attr('class', function(d, i){ return d.reason
+            .attr('class', function(d, i){ return d.reason;});
+
     }
   };
 })();
