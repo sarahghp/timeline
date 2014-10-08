@@ -222,13 +222,12 @@ var DRAWINGSPACE =  (function(){
             return 'hsla(' + reasonColor + '.5)'
           })
           .attr('class', function(d, i){ return d.reason;});
-          DRAWINGSPACE.redraw();
         }
       )
     },
 
     redraw: function(selectedReason) {
-      var dataView = filterData(globalData, ['interest', 'fascination']);
+      var dataView = filterData(globalData, selectedReason);
 
       var bars = d3.selectAll('g')
                       .data(dataView),
@@ -298,30 +297,46 @@ $(document).on('ready', function(){
     axis.css('left', -(window.scrollX) + 'px');
   });
 
+  // $.fn.filterfy = function() {
+  //   this.each(function(){
+  //     var filter = $(this);
+  //     filter.on('click.filterfy', function(){
+  //       var type = filter.data('filter');
+  //       $('.highlight').removeClass('highlight');
+  //       filter.addClass('highlight');
+  //       d3.selectAll('.hidden:not(#tooltip)').classed('hidden', false);
+  //       if (type === 'clear'){
+  //         d3.selectAll('g.hidden').classed('hidden', false);
+  //         d3.selectAll(filter).classed('hidden', true);
+  //       } else if (type === 'other') {
+  //         var feels = ['gift', 'interest', 'recommended', 'fascination', 'existential-crisis', 'comfort', 'consolation'];
+  //         feels.forEach(function(element){
+  //           console.log(d3.selectAll('.' + element + ''));
+  //           d3.selectAll('.' + element + '').classed('hidden', true);
+  //         })
+  //       } else {
+  //         d3.selectAll('g:not(.' + type + ')').classed('hidden', true);
+  //         d3.selectAll('circle:not(.' + type + ')').classed('hidden', true);
+  //       }
+  //     })
+  //   })
+  // };
+
   $.fn.filterfy = function() {
     this.each(function(){
       var filter = $(this);
       filter.on('click.filterfy', function(){
+
         var type = filter.data('filter');
-        $('.highlight').removeClass('highlight');
-        filter.addClass('highlight');
-        d3.selectAll('.hidden:not(#tooltip)').classed('hidden', false);
-        if (type === 'clear'){
-          d3.selectAll('g.hidden').classed('hidden', false);
-          d3.selectAll(filter).classed('hidden', true);
-        } else if (type === 'other') {
-          var feels = ['gift', 'interest', 'recommended', 'fascination', 'existential-crisis', 'comfort', 'consolation'];
-          feels.forEach(function(element){
-            console.log(d3.selectAll('.' + element + ''));
-            d3.selectAll('.' + element + '').classed('hidden', true);
-          })
-        } else {
-          d3.selectAll('g:not(.' + type + ')').classed('hidden', true);
-          d3.selectAll('circle:not(.' + type + ')').classed('hidden', true);
-        }
+        DRAWINGSPACE.redraw([type])
+
+
+
+
       })
     })
   };
+
 
   $('.filter').filterfy();
 
