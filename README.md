@@ -1,4 +1,4 @@
-timeline
+Timeline of Neglect
 ========
 
-Timeline of Neglect: A visualization of guilt + books. [Live here.](http://sarahgp.com/timeline/)
+A visualization of guilt + books. [Live here.](http://sarahgp.com/timeline/)
