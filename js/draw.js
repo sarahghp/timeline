@@ -21,7 +21,7 @@ var DRAWINGSPACE =  (function(){
 
   // Clean data
 
-  var cleanData = function(data) {
+  function cleanData(data) {
 
     function setPossession (possession) {
 
@@ -88,9 +88,9 @@ var DRAWINGSPACE =  (function(){
 
   function boxHeightGenerator (index) {
     if (index % 20 === 0){
-      var base = 13 - (i/800);
+      var base = 13 - (index/800);
           plusOrMinus = Math.random() > .5 ? 1 : -1 ;
-          adjustment = plusOrMinus * 5 * (i/width) * Math.random(),
+          adjustment = plusOrMinus * 5 * (index/width) * Math.random(),
           boxHeight = Math.max(0, Math.min((base + adjustment), 10));
       return boxHeight;
     } else {
@@ -99,9 +99,9 @@ var DRAWINGSPACE =  (function(){
   } 
 
   function opacityGenerator (index) {
-    var base = (250/(i + 1)) + .2;
+    var base = (250/(index + 1)) + .2;
         plusOrMinus  = Math.random() > .5 ? 1 : -1 ;
-        adjustment = plusOrMinus * (i/(width * 2.8)) * Math.random(),
+        adjustment = plusOrMinus * (index/(width * 2.8)) * Math.random(),
         opacity = Math.max(.1, Math.min((base + adjustment), .7));
     return opacity;
   }
@@ -228,99 +228,6 @@ var DRAWINGSPACE =  (function(){
     // }
   };
 })();
-
-
-
-
-
-
-
-// (function draw(){
-
-
-
-//   d3.csv('js/timeline.csv', function(error, data){
-
-
-
-//     var svg = d3.select('.chart')
-//       .append('svg')
-//       .attr('width', width)
-//       .attr('height', height);
-
-//     data.forEach(function(element, index){
-//       element.periodical = +element.periodical;
-//       element.reason = element['reason'].toLowerCase();
-//       if (element.reason === 'existential crisis') { element.reason = 'existential-crisis'}; 
-//       element.possession = setPossession(element.possession);
-//       element.diff = setDiffs('diff', element.possession);
-//       element.startDiff = setDiffs('startDiff', element.possession); 
-//     }); 
-
-//     var diffMax = d3.max(data, function(d){ return d.diff });
-//     lineScale.domain([0, diffMax]);
-//     var startDiffMax = d3.max(data, function(d){ return d.startDiff }); 
-//     startScale.domain([0, startDiffMax]);
-
-//     data.forEach(function(element, index){
-//       element.diff = Math.floor(lineScale(element.diff));
-//       element.startDiff = Math.floor(startScale(element.startDiff));
-//     }); 
-
-//     svg.selectAll('g')
-//         .data(data)
-//         .enter()
-//         .append('g')
-//           .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;})
-//         .on('mouseover', function(d){
-          
-//           var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX : event.clientX + scrollX - 450,
-//               yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 25 : event.clientY + scrollY + 5,
-//               text = '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
-
-
-//           d3.select('#tooltip')
-//             .style('left', xPosition + 'px')
-//             .style('top', yPosition + 'px')
-//             .select('#values')
-//             .text(text);
-
-//           d3.select('#tooltip').classed('hidden', false);
-
-//         })
-
-//         .on('mouseout', function(){
-//           d3.select('#tooltip').classed('hidden', true);
-//         });
-        
-
-//     data.forEach(function(element, index){
-//       drawLine(element.diff, index, element.reason, element.startDiff);
-//     });
-
-    
-//       var axisSvg = d3.select('#axis')
-//         .append('svg')
-//         .attr('width', width)
-//         .attr('height', axisHeight);
-
-//       axisSvg.selectAll('circle')
-//         .data(data)
-//         .enter()
-//         .append('circle')
-//         .attr('cx', function(d){return d.startDiff;})
-//         .attr('cy', 30)
-//         .attr('r', 6)
-//         .attr('fill', function(d) {
-//           var thisReason = d.reason;
-//           var reasonColor = colorGenerator(thisReason);
-//           return 'hsla(' + reasonColor + '.5)'
-//         })
-//         .attr('class', function(d, i){ return d.reason;});
-        
-//     }
-//   )
-// })();
 
 
 $(document).on('ready', function(){
