@@ -125,7 +125,6 @@ var DRAWINGSPACE =  (function(){
 
   function filterData(toFilter, reasons, clear) {
       var clear = clear || false;
-
       if (!clear){
         reasons.forEach(function (element){
           reasonArray.push(toFilter.filter(function(datum){
@@ -135,10 +134,7 @@ var DRAWINGSPACE =  (function(){
         return reasonArray = [].concat.apply([], reasonArray);
       } else {
         return globalData;
-      }
-
-
-      
+      }     
   };
 
   return {
@@ -218,10 +214,10 @@ var DRAWINGSPACE =  (function(){
     },
 
     redraw: function(selectedReason) {
-      var dataView = filterData(globalData, ['interest', 'fascination'], true),
+      var dataView = filterData(globalData, ['interest', 'fascination']),
           bars = d3.selectAll('g')
                     .data(dataView),
-          circles = d3.selectAll('circles')
+          circles = d3.selectAll('circle')
                       .data(dataView);
 
           console.log(dataView);
@@ -242,13 +238,19 @@ var DRAWINGSPACE =  (function(){
           //     .append()
           //     /* redraw */
 
-          // bars.center()
-          //     .append()
-          //     /* redraw */
-
-          // circles.center()
-          //     .append()
-          //     /* redraw */
+          bars.exit()
+              .transition()
+              .delay(500)
+              .duration(2000)
+              .style('opacity', 0)
+              .remove();
+              
+          circles.exit()
+              .transition()
+              .delay(500)
+              .duration(2000)
+              .attr('cx', 0)
+              .remove();
     }
   };
 })();
