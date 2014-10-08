@@ -1,6 +1,8 @@
 var DRAWINGSPACE =  (function(){
 
-  var globalData;
+  var globalData,
+      filteredData,
+      reasonArray = [];
 
   // Canvas variables
 
@@ -121,6 +123,24 @@ var DRAWINGSPACE =  (function(){
     }
   }
 
+  function filterData(toFilter, reasons, clear) {
+      var clear = clear || false;
+
+      if (!clear){
+        reasons.forEach(function (element){
+          reasonArray.push(toFilter.filter(function(datum){
+            return datum.reason === element;
+          }));
+        });
+        return reasonArray = [].concat.apply([], reasonArray);
+      } else {
+        return globalData;
+      }
+
+
+      
+  };
+
   return {
     draw: function(initData){
       d3.csv('js/timeline.csv', function(error, data){
@@ -132,6 +152,7 @@ var DRAWINGSPACE =  (function(){
         // Save for redraw access
 
         globalData = data;
+        console.log(globalData);
 
         // Prep drawing
 
@@ -191,41 +212,44 @@ var DRAWINGSPACE =  (function(){
             return 'hsla(' + reasonColor + '.5)'
           })
           .attr('class', function(d, i){ return d.reason;});
+          DRAWINGSPACE.redraw();
         }
       )
+    },
+
+    redraw: function(selectedReason) {
+      var dataView = filterData(globalData, ['interest', 'fascination'], true),
+          bars = d3.selectAll('g')
+                    .data(dataView),
+          circles = d3.selectAll('circles')
+                      .data(dataView);
+
+          console.log(dataView);
+
+          // bars.enter()
+          //     .append()
+          //     /* redraw */
+
+          // circles.enter()
+          //     .append()
+          //     /* redraw */
+
+          // bars.update()
+          //     .append()
+          //     /* redraw */
+
+          // circles.update()
+          //     .append()
+          //     /* redraw */
+
+          // bars.center()
+          //     .append()
+          //     /* redraw */
+
+          // circles.center()
+          //     .append()
+          //     /* redraw */
     }
-
-    // redraw: function(newData) {
-    //   var dataView = newData,
-    //       bars = d3.selectAll('g')
-    //                 .data(dataView),
-    //       circles = d3.selectAll('circles'),
-    //                   .data(dataView);
-
-    //       bars.enter()
-    //           .append()
-    //           /* redraw */
-
-    //       circles.enter()
-    //           .append()
-    //           /* redraw */
-
-    //       bars.update()
-    //           .append()
-    //           /* redraw */
-
-    //       circles.update()
-    //           .append()
-    //           /* redraw */
-
-    //       bars.center()
-    //           .append()
-    //           /* redraw */
-
-    //       circles.center()
-    //           .append()
-    //           /* redraw */
-    // }
   };
 })();
 
