@@ -148,7 +148,6 @@ var DRAWINGSPACE =  (function(){
         // Save for redraw access
 
         globalData = data;
-        console.log(globalData);
 
         // Prep drawing
 
@@ -163,7 +162,7 @@ var DRAWINGSPACE =  (function(){
 
         svg.selectAll('g')
             .data(data)
-            .enter()
+          .enter()
             .append('g')
               .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;})
             .on('mouseover', function(d){
@@ -197,7 +196,7 @@ var DRAWINGSPACE =  (function(){
 
         axisSvg.selectAll('circle')
           .data(data)
-          .enter()
+        .enter()
           .append('circle')
           .attr('cx', function(d){return d.startDiff;})
           .attr('cy', 30)
@@ -214,29 +213,14 @@ var DRAWINGSPACE =  (function(){
     },
 
     redraw: function(selectedReason) {
-      var dataView = filterData(globalData, ['interest', 'fascination']),
-          bars = d3.selectAll('g')
-                    .data(dataView),
+      var dataView = filterData(globalData, ['interest', 'fascination']);
+
+      var bars = d3.selectAll('g')
+                      .data(dataView),
           circles = d3.selectAll('circle')
                       .data(dataView);
 
           console.log(dataView);
-
-          // bars.enter()
-          //     .append()
-          //     /* redraw */
-
-          // circles.enter()
-          //     .append()
-          //     /* redraw */
-
-          // bars.update()
-          //     .append()
-          //     /* redraw */
-
-          // circles.update()
-          //     .append()
-          //     /* redraw */
 
           bars.exit()
               .transition()
@@ -251,6 +235,20 @@ var DRAWINGSPACE =  (function(){
               .duration(2000)
               .attr('cx', 0)
               .remove();
+
+          bars.transition()
+              .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;});
+          dataView.forEach(function(element, index){
+            drawLine(element.diff, index, element.reason, element.startDiff);
+          });
+
+          circles.transition()
+            .attr('fill', function(d) {
+              var thisReason = d.reason;
+              var reasonColor = colorGenerator(thisReason);
+              return 'hsla(' + reasonColor + '.5)'
+            })
+            .attr('class', function(d, i){ return d.reason
     }
   };
 })();
