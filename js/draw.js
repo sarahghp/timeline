@@ -1,13 +1,10 @@
 var DRAWINGSPACE =  (function(){
-  
-  // TODO: Decide which variables need to be public
 
-  var data = /* ajax call */
+  var globalData;
 
   // Canvas variables
 
   var width = 4800,
-    height = data.length * 30,
     axisHeight = 60;
 
   // Scale variables
@@ -24,7 +21,7 @@ var DRAWINGSPACE =  (function(){
 
   // Clean data
 
-  var cleanData = function() {
+  var cleanData = function(data) {
 
     function setPossession (possession) {
 
@@ -52,26 +49,24 @@ var DRAWINGSPACE =  (function(){
       return diff;
     }
 
-    return function(data) {
-      data.forEach(function(element, index){
-        element.periodical = +element.periodical;
-        element.reason = element['reason'].toLowerCase();
-        if (element.reason === 'existential crisis') { element.reason = 'existential-crisis'}; 
-        element.possession = setPossession(element.possession);
-        element.diff = setDiffs('diff', element.possession);
-        element.startDiff = setDiffs('startDiff', element.possession); )
-      }
+    data.forEach(function(element, index){
+      element.periodical = +element.periodical;
+      element.reason = element['reason'].toLowerCase();
+      if (element.reason === 'existential crisis') { element.reason = 'existential-crisis'}; 
+      element.possession = setPossession(element.possession);
+      element.diff = setDiffs('diff', element.possession);
+      element.startDiff = setDiffs('startDiff', element.possession);
+    });
 
-      var diffMax = d3.max(data, function(d){ return d.diff });
-      lineScale.domain([0, diffMax]);
-      var startDiffMax = d3.max(data, function(d){ return d.startDiff }); 
-      startScale.domain([0, startDiffMax]);
+    var diffMax = d3.max(data, function(d){ return d.diff });
+    lineScale.domain([0, diffMax]);
+    var startDiffMax = d3.max(data, function(d){ return d.startDiff }); 
+    startScale.domain([0, startDiffMax]);
 
-      data.forEach(function(element, index){
-        element.diff = Math.floor(lineScale(element.diff));
-        element.startDiff = Math.floor(startScale(element.startDiff));
-      }); 
-    }
+    data.forEach(function(element, index){
+      element.diff = Math.floor(lineScale(element.diff));
+      element.startDiff = Math.floor(startScale(element.startDiff));
+    }); 
   };
 
   // Generators
@@ -128,52 +123,110 @@ var DRAWINGSPACE =  (function(){
 
   return {
     draw: function(initData){
-        var dataView = cleanData(initData); 
+      d3.csv('js/timeline.csv', function(error, data){
 
+        // Prep data
 
-        .call(drawLine(d.diff, i, d.reason, d.startDiff))
+        cleanData(data); 
 
+        // Save for redraw access
 
+        globalData = data;
+
+        // Prep drawing
+
+        height = data.length * 30;
+
+        var svg = d3.select('.chart')
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height);
+
+        // Draw wrapper
+
+        svg.selectAll('g')
+            .data(data)
+            .enter()
+            .append('g')
+              .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;})
+            .on('mouseover', function(d){
+              var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX : event.clientX + scrollX - 450,
+                  yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 25 : event.clientY + scrollY + 5,
+                  text = '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
+              d3.select('#tooltip')
+                .style('left', xPosition + 'px')
+                .style('top', yPosition + 'px')
+                .select('#values')
+                .text(text);
+              d3.select('#tooltip').classed('hidden', false);
+            })
+            .on('mouseout', function(){
+              d3.select('#tooltip').classed('hidden', true);
+            });
+            
+
+        // Add lines
+
+        data.forEach(function(element, index){
+          drawLine(element.diff, index, element.reason, element.startDiff);
+        });
+
+        // Add axis
+        
+        var axisSvg = d3.select('#axis')
+          .append('svg')
+          .attr('width', width)
+          .attr('height', axisHeight);
+
+        axisSvg.selectAll('circle')
+          .data(data)
+          .enter()
+          .append('circle')
+          .attr('cx', function(d){return d.startDiff;})
+          .attr('cy', 30)
+          .attr('r', 6)
+          .attr('fill', function(d) {
+            var thisReason = d.reason;
+            var reasonColor = colorGenerator(thisReason);
+            return 'hsla(' + reasonColor + '.5)'
+          })
+          .attr('class', function(d, i){ return d.reason;});
+        }
+      )
     }
 
-    redraw: function(newData) {
-      var dataView = newData,
-          bars = d3.selectAll('g')
-                    .data(dataView),
-          circles = d3.selectAll('circles'),
-                      .data(dataView);
+    // redraw: function(newData) {
+    //   var dataView = newData,
+    //       bars = d3.selectAll('g')
+    //                 .data(dataView),
+    //       circles = d3.selectAll('circles'),
+    //                   .data(dataView);
 
-          bars.enter()
-              .append()
-              /* redraw */
+    //       bars.enter()
+    //           .append()
+    //           /* redraw */
 
-          circles.enter()
-              .append()
-              /* redraw */
+    //       circles.enter()
+    //           .append()
+    //           /* redraw */
 
-          bars.update()
-              .append()
-              /* redraw */
+    //       bars.update()
+    //           .append()
+    //           /* redraw */
 
-          circles.update()
-              .append()
-              /* redraw */
+    //       circles.update()
+    //           .append()
+    //           /* redraw */
 
-          bars.center()
-              .append()
-              /* redraw */
+    //       bars.center()
+    //           .append()
+    //           /* redraw */
 
-          circles.center()
-              .append()
-              /* redraw */
-
-
-
-    }
+    //       circles.center()
+    //           .append()
+    //           /* redraw */
+    // }
   };
-
-
-
 })();
 
 
@@ -182,95 +235,98 @@ var DRAWINGSPACE =  (function(){
 
 
 
-(function draw(){
+// (function draw(){
 
 
 
-  d3.csv('js/timeline.csv', function(error, data){
+//   d3.csv('js/timeline.csv', function(error, data){
 
 
 
-    var svg = d3.select('.chart')
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height);
+//     var svg = d3.select('.chart')
+//       .append('svg')
+//       .attr('width', width)
+//       .attr('height', height);
 
-    data.forEach(function(element, index){
-      element.periodical = +element.periodical;
-      element.reason = element['reason'].toLowerCase();
-      if (element.reason === 'existential crisis') { element.reason = 'existential-crisis'}; 
-      element.possession = setPossession(element.possession);
-      element.diff = setDiffs('diff', element.possession);
-      element.startDiff = setDiffs('startDiff', element.possession); 
-    }); 
+//     data.forEach(function(element, index){
+//       element.periodical = +element.periodical;
+//       element.reason = element['reason'].toLowerCase();
+//       if (element.reason === 'existential crisis') { element.reason = 'existential-crisis'}; 
+//       element.possession = setPossession(element.possession);
+//       element.diff = setDiffs('diff', element.possession);
+//       element.startDiff = setDiffs('startDiff', element.possession); 
+//     }); 
 
-    var diffMax = d3.max(data, function(d){ return d.diff });
-    lineScale.domain([0, diffMax]);
-    var startDiffMax = d3.max(data, function(d){ return d.startDiff }); 
-    startScale.domain([0, startDiffMax]);
+//     var diffMax = d3.max(data, function(d){ return d.diff });
+//     lineScale.domain([0, diffMax]);
+//     var startDiffMax = d3.max(data, function(d){ return d.startDiff }); 
+//     startScale.domain([0, startDiffMax]);
 
-    data.forEach(function(element, index){
-      element.diff = Math.floor(lineScale(element.diff));
-      element.startDiff = Math.floor(startScale(element.startDiff));
-    }); 
+//     data.forEach(function(element, index){
+//       element.diff = Math.floor(lineScale(element.diff));
+//       element.startDiff = Math.floor(startScale(element.startDiff));
+//     }); 
 
-    svg.selectAll('g')
-        .data(data)
-        .enter()
-        .append('g')
-          .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;})
-        .on('mouseover', function(d){
+//     svg.selectAll('g')
+//         .data(data)
+//         .enter()
+//         .append('g')
+//           .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;})
+//         .on('mouseover', function(d){
           
-          var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX : event.clientX + scrollX - 450,
-              yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 25 : event.clientY + scrollY + 5,
-              text = '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
+//           var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX : event.clientX + scrollX - 450,
+//               yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 25 : event.clientY + scrollY + 5,
+//               text = '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
 
 
-          d3.select('#tooltip')
-            .style('left', xPosition + 'px')
-            .style('top', yPosition + 'px')
-            .select('#values')
-            .text(text);
+//           d3.select('#tooltip')
+//             .style('left', xPosition + 'px')
+//             .style('top', yPosition + 'px')
+//             .select('#values')
+//             .text(text);
 
-          d3.select('#tooltip').classed('hidden', false);
+//           d3.select('#tooltip').classed('hidden', false);
 
-        })
+//         })
 
-        .on('mouseout', function(){
-          d3.select('#tooltip').classed('hidden', true);
-        });
+//         .on('mouseout', function(){
+//           d3.select('#tooltip').classed('hidden', true);
+//         });
         
 
-    data.forEach(function(element, index){
-      drawLine(element.diff, index, element.reason, element.startDiff);
-    });
+//     data.forEach(function(element, index){
+//       drawLine(element.diff, index, element.reason, element.startDiff);
+//     });
 
     
-      var axisSvg = d3.select('#axis')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', axisHeight);
+//       var axisSvg = d3.select('#axis')
+//         .append('svg')
+//         .attr('width', width)
+//         .attr('height', axisHeight);
 
-      axisSvg.selectAll('circle')
-        .data(data)
-        .enter()
-        .append('circle')
-        .attr('cx', function(d){return d.startDiff;})
-        .attr('cy', 30)
-        .attr('r', 6)
-        .attr('fill', function(d) {
-          var thisReason = d.reason;
-          var reasonColor = colorGenerator(thisReason);
-          return 'hsla(' + reasonColor + '.5)'
-        })
-        .attr('class', function(d, i){ return d.reason;});
+//       axisSvg.selectAll('circle')
+//         .data(data)
+//         .enter()
+//         .append('circle')
+//         .attr('cx', function(d){return d.startDiff;})
+//         .attr('cy', 30)
+//         .attr('r', 6)
+//         .attr('fill', function(d) {
+//           var thisReason = d.reason;
+//           var reasonColor = colorGenerator(thisReason);
+//           return 'hsla(' + reasonColor + '.5)'
+//         })
+//         .attr('class', function(d, i){ return d.reason;});
         
-    }
-  )
-})();
+//     }
+//   )
+// })();
 
 
 $(document).on('ready', function(){
+
+  DRAWINGSPACE.draw();
+
   var header = $('#intro-header'),
       axis = $('#axis'),
       chart = $('#chart')
