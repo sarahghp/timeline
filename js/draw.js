@@ -1,4 +1,4 @@
-// Move variables, create getter/setter
+// Get bars updating
 
 var DRAWINGSPACE =  (function(){
 
@@ -392,9 +392,12 @@ $(document).on('ready', function(){
     this.each(function(){
       var filter = $(this);
       filter.on('click.filterfy', function(){
+        $('.clear').removeClass('hidden');
         var type = filter.data('filter');
         filter.addClass('highlight');
-        if (type === 'clear'){ 
+        if (type === 'clear'){
+          $('.clear').addClass('hidden');
+          $('.highlight').removeClass('highlight'); 
           DRAWINGSPACE.flipClear();
         } else if (type === 'other') {
           DRAWINGSPACE.flipOther();
