@@ -132,20 +132,20 @@ var DRAWINGSPACE =  (function(){
     }
   }
 
-  function redrawLine (diff, line, reason, startDiff) {
+  // function redrawLine (diff, line, reason, startDiff) {
 
-    var lineClass = '.line-' + line;
+  //   var lineClass = '.line-' + line;
 
-    for (var i = 0; i < diff; i+=10) {
-      d3.selectAll(lineClass)
-        .append('rect')
-          .attr('x', i + startDiff)
-          .attr('y', (line * 30) + 15)
-          .attr('width', 10)
-          .attr('height', boxHeightGenerator(i))
-          .attr('fill', 'hsla(' + colorGenerator(reason) + opacityGenerator(i) +')');
-    }
-  }
+  //   for (var i = 0; i < diff; i+=10) {
+  //     d3.select(lineClass)
+  //       .append('rect')
+  //         .attr('x', i + startDiff)
+  //         .attr('y', (line * 30) + 15)
+  //         .attr('width', 10)
+  //         .attr('height', boxHeightGenerator(i))
+  //         .attr('fill', 'hsla(' + colorGenerator(reason) + opacityGenerator(i) +')');
+  //   }
+  // }
 
   function filterData(toFilter, reasons, other, clearMe) {
     console.log(clearMe, other);
@@ -194,7 +194,7 @@ var DRAWINGSPACE =  (function(){
 
         height = data.length * 30;
 
-        var svg = d3.select('.chart')
+        var svg = d3.select('#chart')
           .append('svg')
           .attr('width', width)
           .attr('height', height);
@@ -251,63 +251,78 @@ var DRAWINGSPACE =  (function(){
     redraw: function(selectedReason) {
       var dataView = filterData(globalData, selectedReason, this.other, this.clearMe);
 
-      var svg = d3.select('.chart')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height);
+      var svg = d3.select('#chart')
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height);
 
       var bars = svg.selectAll('g')
                       .data(dataView),
-          circles = axisSvg.selectAll('circle')
+          circles = d3.select('#axis svg').selectAll('circle')
                       .data(dataView);
 
           console.log(dataView);
 
+          bars.enter()
+            .append('g')
+              .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;})
+            .on('mouseover', function(d){
+              var xPosition = event.clientX + scrollX < width - 450 ? event.clientX + scrollX : event.clientX + scrollX - 450,
+                  yPosition = event.clientY + scrollY + 100 > height ? event.clientY + scrollY - 25 : event.clientY + scrollY + 5,
+                  text = '' + d.title + ' by ' + d.author + ', ' + d.length + ' pages';
+              d3.select('#tooltip')
+                .style('left', xPosition + 'px')
+                .style('top', yPosition + 'px')
+                .select('#values')
+                .text(text);
+              d3.select('#tooltip').classed('hidden', false);
+            })
+            .on('mouseout', function(){
+              d3.select('#tooltip').classed('hidden', true);
+            });
+
+            bars.transition()
+                .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;});
+            d3.selectAll('rect').remove();
+            dataView.forEach(function(element, index){
+              drawLine(element.diff, index, element.reason, element.startDiff);
+            });
+
+            bars.exit()
+                .transition()
+                .duration(100)
+                .style('opacity', 0)
+                .remove();
+
           circles.enter()
             .append('circle')
-            .attr('cx', function(d){return d.startDiff;})
-            .attr('cy', 30)
-            .attr('r', 6)
-            .attr('fill', function(d) {
-              var thisReason = d.reason;
-              var reasonColor = colorGenerator(thisReason);
-              return 'hsla(' + reasonColor + '.5)'
-            })
-            .attr('class', function(d, i){ return d.reason;});
+              .attr('cx', (width + 10))
+              .attr('cy', 30)
+              .attr('r', 6)
+              .attr('fill', function(d) {
+                var thisReason = d.reason;
+                var reasonColor = colorGenerator(thisReason);
+                return 'hsla(' + reasonColor + '.5)'
+              })
+              .attr('class', function(d, i){ return d.reason;});
 
-          bars.exit()
-              .transition()
-              .duration(100)
-              .style('opacity', 0)
-              .remove();
-              
+          circles.transition()
+            .delay(500)
+            .duration(2000)
+              .attr('cx', function(d){return d.startDiff;})
+              .attr('fill', function(d) {
+                var thisReason = d.reason;
+                var reasonColor = colorGenerator(thisReason);
+                return 'hsla(' + reasonColor + '.5)'
+              })
+              .attr('class', function(d, i){ return d.reason;});
+
           circles.exit()
               .transition()
               .delay(500)
               .duration(2000)
               .attr('cx', 0)
               .remove();
-
-          bars.transition()
-              .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;});
-          d3.selectAll('rect').remove();
-          dataView.forEach(function(element, index){
-            redrawLine(element.diff, index, element.reason, element.startDiff);
-          });
-
-          circles.transition()
-            .delay(500)
-            .duration(2000)
-            .attr('cx', function(d){return d.startDiff;})
-            .attr('fill', function(d) {
-              var thisReason = d.reason;
-              var reasonColor = colorGenerator(thisReason);
-              return 'hsla(' + reasonColor + '.5)'
-            })
-            .attr('class', function(d, i){ return d.reason;});
-
-
-
     }
   };
 })();
