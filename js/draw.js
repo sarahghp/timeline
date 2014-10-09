@@ -7,7 +7,15 @@ var DRAWINGSPACE =  (function(){
   // Canvas variables
 
   var width = 4800,
-    axisHeight = 60;
+    axisHeight = 60,
+    height;
+
+// SVGs
+  var axisSvg = d3.select('#axis')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', axisHeight);
+
 
   // Scale variables
 
@@ -20,6 +28,7 @@ var DRAWINGSPACE =  (function(){
       earliest = new Date(2010, 0, 1),
       maxDate = Date.parse(today),
       minDate = Date.parse(earliest);
+
 
   // Clean data
 
@@ -220,11 +229,7 @@ var DRAWINGSPACE =  (function(){
         });
 
         // Add axis
-        
-        var axisSvg = d3.select('#axis')
-          .append('svg')
-          .attr('width', width)
-          .attr('height', axisHeight);
+      
 
         axisSvg.selectAll('circle')
           .data(data)
@@ -246,9 +251,14 @@ var DRAWINGSPACE =  (function(){
     redraw: function(selectedReason) {
       var dataView = filterData(globalData, selectedReason, this.other, this.clearMe);
 
-      var bars = d3.selectAll('g')
+      var svg = d3.select('.chart')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+      var bars = svg.selectAll('g')
                       .data(dataView),
-          circles = d3.selectAll('circle')
+          circles = axisSvg.selectAll('circle')
                       .data(dataView);
 
           console.log(dataView);
