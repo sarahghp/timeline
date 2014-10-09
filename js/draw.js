@@ -1,7 +1,6 @@
 var DRAWINGSPACE =  (function(){
 
   var globalData,
-      filteredData,
       reasonArray = [];
 
   // Canvas variables
@@ -250,13 +249,11 @@ var DRAWINGSPACE =  (function(){
 
     redraw: function(selectedReason) {
       var dataView = filterData(globalData, selectedReason, this.other, this.clearMe);
+      // d3.select('#axis svg').html('');
+      // d3.select('#chart svg').html('');
 
-      var svg = d3.select('#chart')
-          .append('svg')
-          .attr('width', width)
-          .attr('height', height);
 
-      var bars = svg.selectAll('g')
+      var bars = d3.select('#chart svg').selectAll('g')
                       .data(dataView),
           circles = d3.select('#axis svg').selectAll('circle')
                       .data(dataView);
@@ -281,18 +278,18 @@ var DRAWINGSPACE =  (function(){
               d3.select('#tooltip').classed('hidden', true);
             });
 
-            bars.transition()
-                .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;});
-            d3.selectAll('rect').remove();
-            dataView.forEach(function(element, index){
-              drawLine(element.diff, index, element.reason, element.startDiff);
-            });
+          bars.transition()
+              .attr('class', function(d, i){ return 'line-' + i + ' ' + d.reason;});
+          d3.selectAll('rect').remove();
+          dataView.forEach(function(element, index){
+            drawLine(element.diff, index, element.reason, element.startDiff);
+          });
 
-            bars.exit()
-                .transition()
-                .duration(100)
-                .style('opacity', 0)
-                .remove();
+          bars.exit()
+              .transition()
+              .duration(100)
+              .style('opacity', 0)
+              .remove();
 
           circles.enter()
             .append('circle')
