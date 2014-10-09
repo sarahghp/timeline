@@ -1,7 +1,11 @@
+// Move variables, create getter/setter
+
 var DRAWINGSPACE =  (function(){
 
   var globalData,
-      reasonArray = [];
+      reasonArray = [],
+      clearMe = false,
+      other = false;
 
   // Canvas variables
 
@@ -147,9 +151,10 @@ var DRAWINGSPACE =  (function(){
   //   }
   // }
 
-  function filterData(toFilter, reasons, other, clearMe) {
+  function filterData(toFilter, reasons) {
     console.log(clearMe, other);
-       if (other) { 
+       if (other) {
+          other = false;
           reasonArray.push(toFilter.filter(function(datum){
             return datum.reason != 'gift' &&
                    datum.reason != 'interest' &&
@@ -176,8 +181,6 @@ var DRAWINGSPACE =  (function(){
   }
 
   return {
-    clearMe: false,
-    other: false,
     
     draw: function(initData){
       d3.csv('js/timeline.csv', function(error, data){
@@ -318,7 +321,16 @@ var DRAWINGSPACE =  (function(){
               .duration(2000)
               .attr('cx', 0)
               .remove();
-    }
+    },
+
+    flipClear: function(){
+      clearMe = !clearMe;
+    },
+
+    flipOther: function(){
+      other = !other;
+    },
+
   };
 })();
 
@@ -383,9 +395,9 @@ $(document).on('ready', function(){
         var type = filter.data('filter');
         filter.addClass('highlight');
         if (type === 'clear'){ 
-          DRAWINGSPACE.clearMe = true;
+          DRAWINGSPACE.flipClear();
         } else if (type === 'other') {
-          DRAWINGSPACE.other = true;
+          DRAWINGSPACE.flipOther();
         } else {
           selectionArr.push(type);
         }
