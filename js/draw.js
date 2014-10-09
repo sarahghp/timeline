@@ -60,6 +60,7 @@ var DRAWINGSPACE =  (function(){
     }
 
     data.forEach(function(element, index){
+      element.ID = index;
       element.periodical = +element.periodical;
       element.reason = element['reason'].toLowerCase();
       if (element.reason === 'existential crisis') { element.reason = 'existential-crisis'}; 
@@ -249,14 +250,11 @@ var DRAWINGSPACE =  (function(){
 
     redraw: function(selectedReason) {
       var dataView = filterData(globalData, selectedReason, this.other, this.clearMe);
-      // d3.select('#axis svg').html('');
-      // d3.select('#chart svg').html('');
-
 
       var bars = d3.select('#chart svg').selectAll('g')
-                      .data(dataView),
+                      .data(dataView, function(d){return d.ID}),
           circles = d3.select('#axis svg').selectAll('circle')
-                      .data(dataView);
+                      .data(dataView, function(d){return d.ID});
 
           console.log(dataView);
 
