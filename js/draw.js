@@ -138,16 +138,28 @@ var DRAWINGSPACE =  (function(){
     }
   }
 
-  function filterData(toFilter, reasons) {
-      if (!this.clearMe && !this.other){
+  function filterData(toFilter, reasons, other, clearMe) {
+    console.log(clearMe, other);
+       if (other) { 
+          reasonArray.push(toFilter.filter(function(datum){
+            return datum.reason != 'gift' &&
+                   datum.reason != 'interest' &&
+                   datum.reason != 'recommended' &&
+                   datum.reason != 'fascination' &&
+                   datum.reason != 'existential-crisis' &&
+                   datum.reason != 'comfort' &&
+                   datum.reason != 'consolation';
+          }));
+
+        return reasonArray = [].concat.apply([], reasonArray);
+      }
+       else if (!clearMe && !other){
         reasons.forEach(function (element){
           reasonArray.push(toFilter.filter(function(datum){
             return datum.reason === element;
           }));
         });
         return reasonArray = [].concat.apply([], reasonArray);
-      } else if (this.other) { 
-        // return an array of things that *don't match reasons not other
       } else {
         selectionArr.length = 0;
         return globalData;
@@ -232,7 +244,7 @@ var DRAWINGSPACE =  (function(){
     },
 
     redraw: function(selectedReason) {
-      var dataView = filterData(globalData, selectedReason);
+      var dataView = filterData(globalData, selectedReason, this.other, this.clearMe);
 
       var bars = d3.selectAll('g')
                       .data(dataView),
@@ -243,8 +255,7 @@ var DRAWINGSPACE =  (function(){
 
           bars.exit()
               .transition()
-              .delay(500)
-              .duration(2000)
+              .duration(100)
               .style('opacity', 0)
               .remove();
               
