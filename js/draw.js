@@ -278,7 +278,8 @@ $(document).on('ready', function(){
       axis = $('#axis'),
       chart = $('#chart')
       introPara = $('#intro-para'),
-      closeButton = $('.close');
+      closeButton = $('.close'),
+      selectionArr = [];
 
   function setHeights() {
     var headerHeight = header.outerHeight();
@@ -328,7 +329,10 @@ $(document).on('ready', function(){
       filter.on('click.filterfy', function(){
 
         var type = filter.data('filter');
-        DRAWINGSPACE.redraw([type])
+        selectionArr.push(type);
+
+
+        DRAWINGSPACE.redraw(selectionArr);
 
 
 
