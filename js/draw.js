@@ -138,21 +138,26 @@ var DRAWINGSPACE =  (function(){
     }
   }
 
-  function filterData(toFilter, reasons, clear) {
-      var clear = clear || false;
-      if (!clear){
+  function filterData(toFilter, reasons) {
+      if (!this.clearMe && !this.other){
         reasons.forEach(function (element){
           reasonArray.push(toFilter.filter(function(datum){
             return datum.reason === element;
           }));
         });
         return reasonArray = [].concat.apply([], reasonArray);
+      } else if (this.other) { 
+        // return an array of things that *don't match reasons not other
       } else {
+        selectionArr.length = 0;
         return globalData;
       }     
   }
 
   return {
+    clearMe: false,
+    other: false,
+    
     draw: function(initData){
       d3.csv('js/timeline.csv', function(error, data){
 
@@ -327,16 +332,15 @@ $(document).on('ready', function(){
     this.each(function(){
       var filter = $(this);
       filter.on('click.filterfy', function(){
-
         var type = filter.data('filter');
-        selectionArr.push(type);
-
-
+        if (type === 'clear'){ 
+          DRAWINGSPACE.clearMe = true;
+        } else if (type === 'other') {
+          DRAWINGSPACE.other = true;
+        } else {
+          selectionArr.push(type);
+        }
         DRAWINGSPACE.redraw(selectionArr);
-
-
-
-
       })
     })
   };
