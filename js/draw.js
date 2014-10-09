@@ -253,6 +253,18 @@ var DRAWINGSPACE =  (function(){
 
           console.log(dataView);
 
+          circles.enter()
+            .append('circle')
+            .attr('cx', function(d){return d.startDiff;})
+            .attr('cy', 30)
+            .attr('r', 6)
+            .attr('fill', function(d) {
+              var thisReason = d.reason;
+              var reasonColor = colorGenerator(thisReason);
+              return 'hsla(' + reasonColor + '.5)'
+            })
+            .attr('class', function(d, i){ return d.reason;});
+
           bars.exit()
               .transition()
               .duration(100)
@@ -274,12 +286,17 @@ var DRAWINGSPACE =  (function(){
           });
 
           circles.transition()
+            .delay(500)
+            .duration(2000)
+            .attr('cx', function(d){return d.startDiff;})
             .attr('fill', function(d) {
               var thisReason = d.reason;
               var reasonColor = colorGenerator(thisReason);
               return 'hsla(' + reasonColor + '.5)'
             })
             .attr('class', function(d, i){ return d.reason;});
+
+
 
     }
   };
@@ -344,6 +361,7 @@ $(document).on('ready', function(){
       var filter = $(this);
       filter.on('click.filterfy', function(){
         var type = filter.data('filter');
+        filter.addClass('highlight');
         if (type === 'clear'){ 
           DRAWINGSPACE.clearMe = true;
         } else if (type === 'other') {
